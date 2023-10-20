@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/core/capture_http_overrides.dart';
+import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
+import 'package:network_capture/view/network_list_widget.dart';
 
 /// createTime: 2023/10/20 on 17:37
 /// desc:
@@ -34,6 +36,7 @@ class _NetWorkCaptureState extends State<NetWorkCaptureInit> {
   void initState() {
     super.initState();
     HttpOverrides.global = CaptureHttpOverrides();
+    AppDb.instance.init();
   }
 
   @override
@@ -96,14 +99,17 @@ class _NetWorkCaptureState extends State<NetWorkCaptureInit> {
 
   ///抓包结果入口
   Widget _floatingWidget() {
-    return Card(
-      color: Colors.white,
-      shadowColor: Colors.black,
-      elevation: 2.cw,
-      child: Image.asset(
-        NetworkCaptureAssets.icEntrance,
-        width: iconSize.width,
-        height: iconSize.height,
+    return GestureDetector(
+      onTap: () => NetworkListWidget.showDialog(context),
+      child: Card(
+        color: Colors.white,
+        shadowColor: Colors.black,
+        elevation: 2.cw,
+        child: Image.asset(
+          NetworkCaptureAssets.icEntrance,
+          width: iconSize.width,
+          height: iconSize.height,
+        ),
       ),
     );
   }

@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:network_capture/bean/http_bean.dart';
+import 'package:network_capture/db/app_db.dart';
+import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/http/response/http_client_response_adapter.dart';
 
 /// createTime: 2023/10/20 on 14:57
@@ -12,10 +13,10 @@ import 'package:network_capture/http/response/http_client_response_adapter.dart'
 /// @author azhon
 class CaptureHttpResponse extends HttpClientResponseAdapter {
   final HttpClientRequest request;
-  late HttpBean httpBean;
+  late NetworkHistoryTable table;
 
   CaptureHttpResponse(this.request, super.origin) {
-    httpBean = HttpBean(
+    table = NetworkHistoryTable(
       method: request.method,
       url: request.uri.toString(),
       requestHeaders: request.headers,
@@ -24,7 +25,7 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
 
   @override
   Stream<S> transform<S>(StreamTransformer<List<int>, S> streamTransformer) {
-    httpBean.responseHeaders = headers;
+    table.responseHeaders = headers;
     if (!_canResolve()) {
       ///不受支持的解析类型
       return origin.transform(streamTransformer);
@@ -60,7 +61,8 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     } else if (event is Uint8List) {
       data = _getEncoding()?.decode(event);
     }
-    httpBean.response = data;
+    table.response = data;
+    AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
   }
 
   ///根据响应头获取编码格式
