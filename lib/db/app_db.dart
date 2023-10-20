@@ -49,6 +49,10 @@ class AppDb {
     return _db.insert(table, values);
   }
 
+  Future<int> delete(String table, {String? where, List<Object?>? whereArgs}) {
+    return _db.delete(table, where: where, whereArgs: whereArgs);
+  }
+
   Future<List<Map<String, Object?>>> query(
     String table, {
     bool? distinct,

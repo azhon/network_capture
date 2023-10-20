@@ -10,8 +10,8 @@ class NetworkHistoryTable {
   int? id;
   String? method;
   String? url;
-  HttpHeaders? requestHeaders;
-  HttpHeaders? responseHeaders;
+  Map<String, dynamic>? requestHeaders;
+  Map<String, dynamic>? responseHeaders;
   String? response;
 
   NetworkHistoryTable({
@@ -23,7 +23,7 @@ class NetworkHistoryTable {
     this.response,
   });
 
-  Map<String, String> headers(HttpHeaders? headers) {
+  Map<String, String> transformHeaders(HttpHeaders? headers) {
     final Map<String, String> map = {};
     headers?.forEach((name, values) {
       map[name] = values.first;
@@ -36,10 +36,19 @@ class NetworkHistoryTable {
       'id': id,
       'method': method,
       'url': url,
-      'requestHeaders': jsonEncode(headers(requestHeaders)),
-      'responseHeaders': jsonEncode(headers(responseHeaders)),
+      'requestHeaders': jsonEncode(requestHeaders),
+      'responseHeaders': jsonEncode(responseHeaders),
       'response': response,
     };
+  }
+
+  NetworkHistoryTable.fromMap(Map<String, Object?> map) {
+    id = int.parse(map['id']!.toString());
+    method = map['method'].toString();
+    url = map['url'].toString();
+    requestHeaders = jsonDecode(map['requestHeaders'].toString());
+    responseHeaders = jsonDecode(map['responseHeaders'].toString());
+    response = map['response'].toString();
   }
 
   @override

@@ -19,13 +19,13 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     table = NetworkHistoryTable(
       method: request.method,
       url: request.uri.toString(),
-      requestHeaders: request.headers,
     );
+    table.requestHeaders = table.transformHeaders(request.headers);
   }
 
   @override
   Stream<S> transform<S>(StreamTransformer<List<int>, S> streamTransformer) {
-    table.responseHeaders = headers;
+    table.responseHeaders = table.transformHeaders(headers);
     if (!_canResolve()) {
       ///不受支持的解析类型
       return origin.transform(streamTransformer);
