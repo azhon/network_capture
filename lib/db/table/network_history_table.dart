@@ -11,14 +11,19 @@ class NetworkHistoryTable {
   String? method;
   String? url;
   Map<String, dynamic>? requestHeaders;
+  int? startTime;
   Map<String, dynamic>? responseHeaders;
   String? response;
+  int? endTime;
+  int? statusCode;
+  int? contentLength;
 
   NetworkHistoryTable({
     this.id,
     this.method,
     this.url,
     this.requestHeaders,
+    this.startTime,
     this.responseHeaders,
     this.response,
   });
@@ -37,8 +42,12 @@ class NetworkHistoryTable {
       'method': method,
       'url': url,
       'requestHeaders': jsonEncode(requestHeaders),
+      'startTime': startTime,
       'responseHeaders': jsonEncode(responseHeaders),
       'response': response,
+      'endTime': endTime,
+      'statusCode': statusCode,
+      'contentLength': contentLength,
     };
   }
 
@@ -47,8 +56,12 @@ class NetworkHistoryTable {
     method = map['method'].toString();
     url = map['url'].toString();
     requestHeaders = jsonDecode(map['requestHeaders'].toString());
+    startTime = int.parse(map['startTime']?.toString() ?? '0');
     responseHeaders = jsonDecode(map['responseHeaders'].toString());
     response = map['response'].toString();
+    endTime = int.parse(map['endTime']?.toString() ?? '0');
+    statusCode = int.parse(map['statusCode']?.toString() ?? '0');
+    contentLength = int.parse(map['contentLength']?.toString() ?? '0');
   }
 
   @override
@@ -63,8 +76,12 @@ class NetworkHistoryTable {
     method text,
     url text,
     requestHeaders text,
+    startTime integer,
     responseHeaders text,
-    response text
+    response text,
+    endTime integer,
+    statusCode integer,
+    contentLength integer
     )
     ''';
   }

@@ -12,16 +12,9 @@ import 'package:network_capture/http/response/http_client_response_adapter.dart'
 ///
 /// @author azhon
 class CaptureHttpResponse extends HttpClientResponseAdapter {
-  final HttpClientRequest request;
   late NetworkHistoryTable table;
 
-  CaptureHttpResponse(this.request, super.origin) {
-    table = NetworkHistoryTable(
-      method: request.method,
-      url: request.uri.toString(),
-    );
-    table.requestHeaders = table.transformHeaders(request.headers);
-  }
+  CaptureHttpResponse(this.table, super.origin);
 
   @override
   Stream<S> transform<S>(StreamTransformer<List<int>, S> streamTransformer) {
@@ -34,6 +27,9 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
       handleData: (data, sink) {
         sink.add(data as S);
         _decodeResponse(data);
+        table.endTime = DateTime.now().millisecondsSinceEpoch;
+        table.statusCode = statusCode;
+        table.contentLength = contentLength;
       },
     );
     return origin.transform(streamTransformer);

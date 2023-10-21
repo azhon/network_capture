@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/http/request/http_client_request_adapter.dart';
 import 'package:network_capture/http/response/capture_http_response.dart';
 
@@ -8,7 +9,16 @@ import 'package:network_capture/http/response/capture_http_response.dart';
 ///
 /// @author azhon
 class CaptureHttpRequest extends HttpClientRequestAdapter {
-  CaptureHttpRequest(super.origin);
+  late NetworkHistoryTable table;
+
+  CaptureHttpRequest(super.origin) {
+    table = NetworkHistoryTable(
+      method: origin.method,
+      url: origin.uri.toString(),
+      startTime: DateTime.now().millisecondsSinceEpoch,
+    );
+    table.requestHeaders = table.transformHeaders(origin.headers);
+  }
 
   @override
   Future<HttpClientResponse> close() {
@@ -16,6 +26,6 @@ class CaptureHttpRequest extends HttpClientRequestAdapter {
   }
 
   Future<HttpClientResponse> _proxy(Future<HttpClientResponse> future) async {
-    return CaptureHttpResponse(origin, await future);
+    return CaptureHttpResponse(table, await future);
   }
 }
