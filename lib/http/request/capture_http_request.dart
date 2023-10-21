@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:network_capture/db/table/network_history_table.dart';
@@ -15,6 +16,7 @@ class CaptureHttpRequest extends HttpClientRequestAdapter {
     table = NetworkHistoryTable(
       method: origin.method,
       url: origin.uri.toString(),
+      params: jsonEncode(origin.uri.queryParameters),
       startTime: DateTime.now().millisecondsSinceEpoch,
     );
     table.requestHeaders = table.transformHeaders(origin.headers);
@@ -23,6 +25,15 @@ class CaptureHttpRequest extends HttpClientRequestAdapter {
   @override
   Future<HttpClientResponse> close() {
     return _proxy(origin.close());
+  }
+
+  @override
+  Future addStream(Stream<List<int>> stream) {
+    stream = stream.asBroadcastStream();
+    stream.listen((List<int> event) {
+      table.params = encoding.decode(event);
+    });
+    return origin.addStream(stream);
   }
 
   Future<HttpClientResponse> _proxy(Future<HttpClientResponse> future) async {

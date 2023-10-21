@@ -11,6 +11,7 @@ class NetworkHistoryTable {
   String? method;
   String? url;
   Map<String, dynamic>? requestHeaders;
+  String? params;
   int? startTime;
   Map<String, dynamic>? responseHeaders;
   String? response;
@@ -22,6 +23,7 @@ class NetworkHistoryTable {
     this.id,
     this.method,
     this.url,
+    this.params,
     this.requestHeaders,
     this.startTime,
     this.responseHeaders,
@@ -41,6 +43,7 @@ class NetworkHistoryTable {
       'id': id,
       'method': method,
       'url': url,
+      'params': params,
       'requestHeaders': jsonEncode(requestHeaders),
       'startTime': startTime,
       'responseHeaders': jsonEncode(responseHeaders),
@@ -55,6 +58,7 @@ class NetworkHistoryTable {
     id = int.parse(map['id']!.toString());
     method = map['method'].toString();
     url = map['url'].toString();
+    params = map['params'].toString();
     requestHeaders = jsonDecode(map['requestHeaders'].toString());
     startTime = int.parse(map['startTime']?.toString() ?? '0');
     responseHeaders = jsonDecode(map['responseHeaders'].toString());
@@ -77,6 +81,7 @@ class NetworkHistoryTable {
     id integer primary key autoincrement,
     method text,
     url text,
+    params text,
     requestHeaders text,
     startTime integer,
     responseHeaders text,

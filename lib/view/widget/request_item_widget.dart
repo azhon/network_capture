@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:intl/intl.dart';
+import 'package:network_capture/util/format_util.dart';
 
 class RequestItemWidget extends StatefulWidget {
   final NetworkHistoryTable table;
@@ -29,55 +30,96 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
         child: Column(
           children: [
-            _rowWidget('Method', widget.table.method ?? '', border: true),
-            _rowWidget('Host', _getHost(uri)),
-            _rowWidget('Path', uri.path),
+            SizedBox(height: 4.cw),
+            Row(
+              children: [
+                _label('Method', widget.table.method ?? ''),
+                _label('Status', '${widget.table.statusCode}'),
+                _label('Cost', '${widget.table.cost}ms'),
+                _label(
+                  'Size',
+                  FormatUtil.formatSize(widget.table.contentLength),
+                ),
+              ],
+            ),
+            SizedBox(height: 4.cw),
             _rowWidget('Time', _getDate()),
+            _rowWidget('Url', uri.path),
+            _rowWidget('Host', _getHost(uri)),
+            _rowWidget('Params', widget.table.params ?? ''),
           ],
         ),
       ),
     );
   }
 
-  Widget _rowWidget(
-    String title,
-    String value, {
-    bool border = false,
-  }) {
+  Widget _rowWidget(String title, String value) {
     return Row(
       children: [
         Text(
           '$title: ',
           style: TextStyle(
-            fontSize: 14.csp,
+            fontSize: 13.csp,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
           ),
         ),
-        Container(
-          padding: border ? EdgeInsets.symmetric(horizontal: 4.cw) : null,
-          decoration: border
-              ? BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(4.cw),
-                )
-              : null,
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 12.csp,
-              color: border ? Colors.white : const Color(0xFF666666),
-            ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 12.csp,
+            color: const Color(0xFF666666),
           ),
         ),
       ],
     );
   }
 
+  Widget _label(String title, String value) {
+    return Container(
+      margin: EdgeInsets.only(right: 4.cw),
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(4.cw),
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 2.cw),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 10.csp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 2.cw),
+            decoration: BoxDecoration(
+              color: const Color(0XFFFF9900),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(4.cw),
+                bottomRight: Radius.circular(4.cw),
+              ),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 10.csp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   ///解析主机
   String _getHost(Uri uri) {
     String port = '';
-    if (uri.port != 80) {
+    if (!(uri.port == 80 || uri.port == 443)) {
       port = ':${uri.port}';
     }
     return '${uri.scheme}://${uri.host}$port';

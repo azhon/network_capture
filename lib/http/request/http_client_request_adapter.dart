@@ -92,11 +92,6 @@ abstract class HttpClientRequestAdapter implements HttpClientRequest {
   }
 
   @override
-  Future addStream(Stream<List<int>> stream) {
-    return origin.addStream(stream);
-  }
-
-  @override
   Future flush() {
     return origin.flush();
   }

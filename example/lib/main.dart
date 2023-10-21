@@ -49,18 +49,36 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () => _get(),
-              child: Container(
-                color: Colors.blue,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                child: const Text(
-                  '网络请求',
-                  style: TextStyle(color: Colors.white),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () => _get(),
+                  child: Container(
+                    color: Colors.blue,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
+                    child: const Text(
+                      'Get网络请求',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () => _post(),
+                  child: Container(
+                    color: Colors.blue,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
+                    child: const Text(
+                      'Post网络请求',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
@@ -73,9 +91,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _get() {
-    Dio()
-        .get('http://www.wanandroid.com/banner/json?id=323&name=zhon')
-        .then((value) {
+    Dio().get('https://www.wanandroid.com/banner/json',
+        queryParameters: {'id': '323', 'name': 'azhon'}).then((value) {
+      setState(() {
+        result = value.toString();
+      });
+    });
+  }
+
+  void _post() {
+    Dio().post('https://www.wanandroid.com/user/login',
+        data: {'username': 'a_zhon', 'password': '12345'}).then((value) {
       setState(() {
         result = value.toString();
       });
