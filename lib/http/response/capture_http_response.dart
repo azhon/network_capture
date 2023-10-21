@@ -27,9 +27,6 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
       handleData: (data, sink) {
         sink.add(data as S);
         _decodeResponse(data);
-        table.endTime = DateTime.now().millisecondsSinceEpoch;
-        table.statusCode = statusCode;
-        table.contentLength = contentLength;
       },
     );
     return origin.transform(streamTransformer);
@@ -54,10 +51,14 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     String? data;
     if (event is String) {
       data = event;
+      table.contentLength = utf8.encode(event).length;
     } else if (event is Uint8List) {
       data = _getEncoding()?.decode(event);
+      table.contentLength = event.length;
     }
     table.response = data;
+    table.endTime = DateTime.now().millisecondsSinceEpoch;
+    table.statusCode = statusCode;
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
   }
 

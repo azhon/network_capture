@@ -69,6 +69,8 @@ class NetworkHistoryTable {
     return jsonEncode(toMap());
   }
 
+  int get cost => (endTime ?? 0) - (startTime ?? 0);
+
   static String createTable() {
     // ignore: leading_newlines_in_multiline_strings
     return '''create table $tableName (
