@@ -17,6 +17,7 @@ class NetworkHistoryTable {
   String? response;
   int? endTime;
   int? statusCode;
+  String? reasonPhrase;
   int? contentLength;
 
   NetworkHistoryTable({
@@ -50,6 +51,7 @@ class NetworkHistoryTable {
       'response': response,
       'endTime': endTime,
       'statusCode': statusCode,
+      'reasonPhrase': reasonPhrase,
       'contentLength': contentLength,
     };
   }
@@ -63,6 +65,7 @@ class NetworkHistoryTable {
     startTime = int.parse(map['startTime']?.toString() ?? '0');
     responseHeaders = jsonDecode(map['responseHeaders'].toString());
     response = map['response'].toString();
+    reasonPhrase = map['reasonPhrase'].toString();
     endTime = int.parse(map['endTime']?.toString() ?? '0');
     statusCode = int.parse(map['statusCode']?.toString() ?? '0');
     contentLength = int.parse(map['contentLength']?.toString() ?? '0');
@@ -96,6 +99,7 @@ class NetworkHistoryTable {
     startTime integer,
     responseHeaders text,
     response text,
+    reasonPhrase text,
     endTime integer,
     statusCode integer,
     contentLength integer

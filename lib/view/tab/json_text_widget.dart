@@ -23,17 +23,23 @@ class JsonTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        HighlightView(
-          const JsonEncoder.withIndent('  ').convert(jsonDecode(text ?? '')),
-          padding: EdgeInsets.only(left: leftPadding),
-          language: 'json',
-          theme: _codeTheme(),
-          textStyle: TextStyle(fontSize: fontSize),
+    return SingleChildScrollView(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HighlightView(
+              const JsonEncoder.withIndent('  ')
+                  .convert(jsonDecode(text ?? '')),
+              padding: EdgeInsets.only(left: leftPadding),
+              language: 'json',
+              theme: _codeTheme(),
+              textStyle: TextStyle(fontSize: fontSize),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

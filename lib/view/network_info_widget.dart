@@ -51,11 +51,14 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
       body: Column(
         children: [
           _tabBar(reqTab, _reqController),
-          Container(
+          SizedBox(
             height: 200.cw,
-            child: _tabBarView(_reqController),
+            child: _reqTabBarView(),
           ),
           _tabBar(rspTab, _rspController),
+          Expanded(
+            child: _rspTabBarView(),
+          ),
         ],
       ),
     );
@@ -117,9 +120,10 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     );
   }
 
-  TabBarView _tabBarView(TabController controller) {
+  ///请求
+  TabBarView _reqTabBarView() {
     return TabBarView(
-      controller: controller,
+      controller: _reqController,
       physics: const NeverScrollableScrollPhysics(),
       children: reqTab
           .map((e) {
@@ -144,6 +148,38 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
                 );
               case 'Text':
                 return TextWidget(text: widget.table.params);
+              case 'Hex':
+                return const SizedBox.shrink();
+            }
+          })
+          .cast<Widget>()
+          .toList(),
+    );
+  }
+
+  ///响应
+  TabBarView _rspTabBarView() {
+    return TabBarView(
+      controller: _rspController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: rspTab
+          .map((e) {
+            switch (e) {
+              case 'Headers':
+                return HeadersWidget(
+                  topHeaders: {
+                    '': '${widget.table.statusCode} ${widget.table.reasonPhrase}',
+                  },
+                  headers: widget.table.responseHeaders,
+                );
+              case 'JSON Text':
+                return JsonTextWidget(
+                  text: widget.table.response,
+                  fontSize: 12.csp,
+                  leftPadding: 4.cw,
+                );
+              case 'Text':
+                return TextWidget(text: widget.table.response);
               case 'Hex':
                 return const SizedBox.shrink();
             }

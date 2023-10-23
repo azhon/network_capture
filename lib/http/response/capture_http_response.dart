@@ -59,6 +59,7 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     table.response = data;
     table.endTime = DateTime.now().millisecondsSinceEpoch;
     table.statusCode = statusCode;
+    table.reasonPhrase = reasonPhrase;
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
   }
 
