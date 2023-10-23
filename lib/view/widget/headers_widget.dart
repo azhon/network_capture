@@ -6,23 +6,29 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 ///
 /// @author azhon
 class HeadersWidget extends StatelessWidget {
+  final Map<String, dynamic>? topHeaders;
   final Map<String, dynamic>? headers;
 
   const HeadersWidget({
     required this.headers,
+    this.topHeaders,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: headers?.keys
-              .map(
-                (e) => _rowWidget(e, headers![e]),
-              )
-              .toList() ??
-          [],
+      children: _children(topHeaders) + _children(headers),
     );
+  }
+
+  List<Widget> _children(Map<String, dynamic>? headers) {
+    return headers?.keys
+            .map(
+              (e) => _rowWidget(e, headers[e]),
+            )
+            .toList() ??
+        [];
   }
 
   Widget _rowWidget(String key, String value) {
@@ -46,11 +52,15 @@ class HeadersWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 3,
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 12.csp,
-              color: const Color(0xFF333333),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 12.csp,
+                color: const Color(0xFF333333),
+              ),
+              maxLines: 1,
             ),
           ),
         ),

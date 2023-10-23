@@ -118,8 +118,12 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   TabBarView _tabBarView(TabController controller) {
     return TabBarView(
       controller: controller,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
-        HeadersWidget(headers: widget.table.requestHeaders),
+        HeadersWidget(
+          topHeaders: {'': '${widget.table.method} ${widget.table.pathParams}'},
+          headers: widget.table.requestHeaders,
+        ),
         QueryStringWidget(
           queryString: widget.table.params,
           leftPadding: 8.cw,

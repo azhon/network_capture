@@ -75,7 +75,15 @@ class NetworkHistoryTable {
 
   int get cost => (endTime ?? 0) - (startTime ?? 0);
 
+  String get origin => Uri.parse(url ?? '').origin;
+
   String get path => Uri.parse(url ?? '').path;
+
+  String get pathParams {
+    final uri = Uri.parse(url ?? '');
+    final contact = uri.query.isEmpty ? '' : '?';
+    return uri.path + contact + uri.query;
+  }
 
   static String createTable() {
     // ignore: leading_newlines_in_multiline_strings

@@ -41,7 +41,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
             children: [
               _rowWidget('Time', _getDate()),
               _rowWidget('Uri', widget.table.path),
-              _rowWidget('Host', _getHost(widget.table.url)),
+              _rowWidget('Host', widget.table.origin),
               Row(
                 children: [
                   _label('${widget.table.method}'),
@@ -119,16 +119,6 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         ),
       ),
     );
-  }
-
-  ///解析主机
-  String _getHost(String? url) {
-    final uri = Uri.parse(url ?? '');
-    String port = '';
-    if (!(uri.port == 80 || uri.port == 443)) {
-      port = ':${uri.port}';
-    }
-    return '${uri.scheme}://${uri.host}$port';
   }
 
   ///解析时间
