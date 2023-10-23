@@ -29,7 +29,7 @@ class NetworkListWidget extends StatefulWidget {
         ),
       ),
       builder: (_) {
-        final height = MediaQuery.of(context).size.height * 0.85;
+        final height = MediaQuery.of(context).size.height * 0.9;
         return SizedBox(
           height: height,
           child: const NetworkListWidget(),
@@ -49,7 +49,9 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
   }
 
   void _refresh() {
-    AppDb.instance.query(NetworkHistoryTable.tableName).then((value) {
+    AppDb.instance
+        .query(NetworkHistoryTable.tableName, orderBy: 'id DESC')
+        .then((value) {
       setState(() {
         list = value;
       });

@@ -31,22 +31,36 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
         child: Column(
           children: [
-            SizedBox(height: 4.cw),
+            _rowWidget('Time', _getDate()),
+            _rowWidget('Uri', uri.path),
+            _rowWidget('Host', _getHost(uri)),
             Row(
               children: [
-                _label('Method', widget.table.method ?? ''),
-                _label('Status', '${widget.table.statusCode}'),
-                _label('Cost', '${widget.table.cost}ms'),
-                _label(
-                  'Size',
-                  FormatUtil.formatSize(widget.table.contentLength),
+                _label('${widget.table.method}'),
+                _label('${widget.table.statusCode}'),
+                Padding(
+                  padding: EdgeInsets.only(right: 4.cw),
+                  child: Text(
+                    'Cost:${widget.table.cost}ms',
+                    style: TextStyle(
+                      fontSize: 10.csp,
+                      color: const Color(0xFF666666),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 4.cw),
+                  child: Text(
+                    'Size:${FormatUtil.formatSize(widget.table.contentLength)}',
+                    style: TextStyle(
+                      fontSize: 10.csp,
+                      color: const Color(0xFF666666),
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 4.cw),
-            _rowWidget('Time', _getDate()),
-            _rowWidget('Url', uri.path),
-            _rowWidget('Host', _getHost(uri)),
+            SizedBox(height: 2.cw),
             RequestParamsWidget(
               method: widget.table.method,
               params: widget.table.params,
@@ -79,43 +93,21 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
     );
   }
 
-  Widget _label(String title, String value) {
+  Widget _label(String text) {
     return Container(
       margin: EdgeInsets.only(right: 4.cw),
+      padding: EdgeInsets.symmetric(horizontal: 2.cw),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: const Color(0XFFFF9900),
         borderRadius: BorderRadius.circular(4.cw),
       ),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.cw),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 10.csp,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 2.cw),
-            decoration: BoxDecoration(
-              color: const Color(0XFFFF9900),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(4.cw),
-                bottomRight: Radius.circular(4.cw),
-              ),
-            ),
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 10.csp,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 8.csp,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
       ),
     );
   }
