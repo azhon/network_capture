@@ -7,6 +7,7 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:intl/intl.dart';
 import 'package:network_capture/util/format_util.dart';
+import 'package:network_capture/view/widget/request_params_widget.dart';
 
 class RequestItemWidget extends StatefulWidget {
   final NetworkHistoryTable table;
@@ -46,7 +47,10 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
             _rowWidget('Time', _getDate()),
             _rowWidget('Url', uri.path),
             _rowWidget('Host', _getHost(uri)),
-            _rowWidget('Params', widget.table.params ?? ''),
+            RequestParamsWidget(
+              method: widget.table.method,
+              params: widget.table.params,
+            ),
           ],
         ),
       ),
@@ -59,7 +63,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         Text(
           '$title: ',
           style: TextStyle(
-            fontSize: 13.csp,
+            fontSize: 12.csp,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
           ),
