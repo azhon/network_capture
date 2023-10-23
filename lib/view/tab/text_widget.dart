@@ -14,11 +14,13 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 4.cw),
-      child: Text(
-        text ?? '',
-        style: TextStyle(
-          fontSize: 12.csp,
-          color: const Color(0xFF333333),
+      child: SingleChildScrollView(
+        child: Text(
+          text ?? '',
+          style: TextStyle(
+            fontSize: 12.csp,
+            color: const Color(0xFF333333),
+          ),
         ),
       ),
     );

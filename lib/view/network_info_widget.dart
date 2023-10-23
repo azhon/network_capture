@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
+import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
 import 'package:network_capture/view/tab/query_string_widget.dart';
 import 'package:network_capture/view/tab/text_widget.dart';
@@ -149,7 +150,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               case 'Text':
                 return TextWidget(text: widget.table.params);
               case 'Hex':
-                return const SizedBox.shrink();
+                return HexWidget(text: widget.table.params);
             }
           })
           .cast<Widget>()
@@ -181,7 +182,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               case 'Text':
                 return TextWidget(text: widget.table.response);
               case 'Hex':
-                return const SizedBox.shrink();
+                return HexWidget(text: widget.table.response);
             }
           })
           .cast<Widget>()
