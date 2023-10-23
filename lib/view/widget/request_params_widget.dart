@@ -2,13 +2,10 @@
 /// desc:
 ///
 /// @author azhon
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/theme_map.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
-import 'package:network_capture/view/widget/query_string_widget.dart';
+import 'package:network_capture/view/tab/json_text_widget.dart';
+import 'package:network_capture/view/tab/query_string_widget.dart';
 
 class RequestParamsWidget extends StatefulWidget {
   final String? method;
@@ -65,17 +62,10 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
                       queryString: widget.params,
                       leftPadding: 4.cw,
                     )
-                  : Row(
-                      children: [
-                        HighlightView(
-                          const JsonEncoder.withIndent('  ')
-                              .convert(jsonDecode(widget.params ?? '')),
-                          padding: EdgeInsets.only(left: 2.cw),
-                          language: 'json',
-                          theme: _codeTheme(),
-                          textStyle: TextStyle(fontSize: 10.cw),
-                        ),
-                      ],
+                  : JsonTextWidget(
+                      text: widget.params,
+                      leftPadding: 2.cw,
+                      fontSize: 10.cw,
                     ),
             ),
           ],
@@ -85,14 +75,4 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
   }
 
   bool get isGet => widget.method == 'GET';
-
-  ///代码主题
-  Map<String, TextStyle> _codeTheme() {
-    final map = <String, TextStyle>{}..addAll(themeMap['googlecode'] ?? {});
-    map['root'] = const TextStyle(
-      backgroundColor: Colors.transparent,
-      color: Color(0XFF000000),
-    );
-    return map;
-  }
 }

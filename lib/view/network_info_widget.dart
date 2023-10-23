@@ -5,8 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
-import 'package:network_capture/view/widget/headers_widget.dart';
-import 'package:network_capture/view/widget/query_string_widget.dart';
+import 'package:network_capture/view/tab/headers_widget.dart';
+import 'package:network_capture/view/tab/json_text_widget.dart';
+import 'package:network_capture/view/tab/query_string_widget.dart';
+import 'package:network_capture/view/tab/text_widget.dart';
 import 'package:network_capture/view/widget/rectangle_indicator.dart';
 
 class NetworkInfoWidget extends StatefulWidget {
@@ -119,16 +121,35 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     return TabBarView(
       controller: controller,
       physics: const NeverScrollableScrollPhysics(),
-      children: [
-        HeadersWidget(
-          topHeaders: {'': '${widget.table.method} ${widget.table.pathParams}'},
-          headers: widget.table.requestHeaders,
-        ),
-        QueryStringWidget(
-          queryString: widget.table.params,
-          leftPadding: 8.cw,
-        ),
-      ],
+      children: reqTab
+          .map((e) {
+            switch (e) {
+              case 'Headers':
+                return HeadersWidget(
+                  topHeaders: {
+                    '': '${widget.table.method} ${widget.table.pathParams}',
+                  },
+                  headers: widget.table.requestHeaders,
+                );
+              case 'Query String':
+                return QueryStringWidget(
+                  queryString: widget.table.params,
+                  leftPadding: 8.cw,
+                );
+              case 'JSON Text':
+                return JsonTextWidget(
+                  text: widget.table.params,
+                  fontSize: 12.csp,
+                  leftPadding: 4.cw,
+                );
+              case 'Text':
+                return TextWidget(text: widget.table.params);
+              case 'Hex':
+                return const SizedBox.shrink();
+            }
+          })
+          .cast<Widget>()
+          .toList(),
     );
   }
 }
