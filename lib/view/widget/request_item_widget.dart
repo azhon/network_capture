@@ -7,6 +7,7 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:intl/intl.dart';
 import 'package:network_capture/util/format_util.dart';
+import 'package:network_capture/view/network_info_widget.dart';
 import 'package:network_capture/view/widget/request_params_widget.dart';
 
 class RequestItemWidget extends StatefulWidget {
@@ -21,51 +22,59 @@ class RequestItemWidget extends StatefulWidget {
 class _RequestItemWidgetState extends State<RequestItemWidget> {
   @override
   Widget build(BuildContext context) {
-    final uri = Uri.parse(widget.table.url ?? '');
-    return Card(
-      shadowColor: Colors.black,
-      elevation: 2.cw,
-      color: Colors.white,
-      margin: EdgeInsets.symmetric(horizontal: 12.cw),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
-        child: Column(
-          children: [
-            _rowWidget('Time', _getDate()),
-            _rowWidget('Uri', uri.path),
-            _rowWidget('Host', _getHost(uri)),
-            Row(
-              children: [
-                _label('${widget.table.method}'),
-                _label('${widget.table.statusCode}'),
-                Padding(
-                  padding: EdgeInsets.only(right: 4.cw),
-                  child: Text(
-                    'Cost:${widget.table.cost}ms',
-                    style: TextStyle(
-                      fontSize: 10.csp,
-                      color: const Color(0xFF666666),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => NetworkInfoWidget(table: widget.table),
+          ),
+        );
+      },
+      child: Card(
+        shadowColor: Colors.black,
+        elevation: 2.cw,
+        color: Colors.white,
+        margin: EdgeInsets.symmetric(horizontal: 12.cw),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
+          child: Column(
+            children: [
+              _rowWidget('Time', _getDate()),
+              _rowWidget('Uri', widget.table.path),
+              _rowWidget('Host', _getHost(widget.table.url)),
+              Row(
+                children: [
+                  _label('${widget.table.method}'),
+                  _label('${widget.table.statusCode}'),
+                  Padding(
+                    padding: EdgeInsets.only(right: 4.cw),
+                    child: Text(
+                      'Cost:${widget.table.cost}ms',
+                      style: TextStyle(
+                        fontSize: 10.csp,
+                        color: const Color(0xFF666666),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 4.cw),
-                  child: Text(
-                    'Size:${FormatUtil.formatSize(widget.table.contentLength)}',
-                    style: TextStyle(
-                      fontSize: 10.csp,
-                      color: const Color(0xFF666666),
+                  Padding(
+                    padding: EdgeInsets.only(right: 4.cw),
+                    child: Text(
+                      'Size:${FormatUtil.formatSize(widget.table.contentLength)}',
+                      style: TextStyle(
+                        fontSize: 10.csp,
+                        color: const Color(0xFF666666),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 2.cw),
-            RequestParamsWidget(
-              method: widget.table.method,
-              params: widget.table.params,
-            ),
-          ],
+                ],
+              ),
+              SizedBox(height: 2.cw),
+              RequestParamsWidget(
+                method: widget.table.method,
+                params: widget.table.params,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,7 +122,8 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
   }
 
   ///解析主机
-  String _getHost(Uri uri) {
+  String _getHost(String? url) {
+    final uri = Uri.parse(url ?? '');
     String port = '';
     if (!(uri.port == 80 || uri.port == 443)) {
       port = ':${uri.port}';
