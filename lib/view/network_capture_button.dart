@@ -11,21 +11,14 @@ import 'package:network_capture/view/network_list_widget.dart';
 /// desc:
 ///
 /// @author azhon
-class NetWorkCaptureInit extends StatefulWidget {
-  final Widget child;
-  final Size designSize;
-
-  const NetWorkCaptureInit({
-    required this.child,
-    this.designSize = const Size(375, 667),
-    super.key,
-  });
+class NetWorkCaptureButton extends StatefulWidget {
+  const NetWorkCaptureButton({super.key});
 
   @override
-  State createState() => _NetWorkCaptureState();
+  State createState() => _NetWorkCaptureButtonState();
 }
 
-class _NetWorkCaptureState extends State<NetWorkCaptureInit> {
+class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton> {
   ///当前位置
   Offset _offset = Offset.zero;
 
@@ -43,33 +36,24 @@ class _NetWorkCaptureState extends State<NetWorkCaptureInit> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final data = MediaQuery.of(context);
-    CaptureScreenAdapter.instance.init(widget.designSize, data);
+    CaptureScreenAdapter.instance.init(data);
     final size = CaptureScreenAdapter.instance.screen;
     _offset = Offset(size.width - iconSize.width - 20.cw, size.height - 240.cw);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Overlay(
-      initialEntries: [
-        OverlayEntry(
-          builder: (c) {
-            return widget.child;
-          },
-        ),
-        OverlayEntry(
-          builder: (c) {
-            return Positioned(
-              left: _offset.dx,
-              top: _offset.dy,
-              child: Draggable(
-                childWhenDragging: const SizedBox.shrink(),
-                onDragEnd: _dragUpdate,
-                feedback: _floatingWidget(),
-                child: _floatingWidget(),
-              ),
-            );
-          },
+    return Stack(
+      children: [
+        Positioned(
+          left: _offset.dx,
+          top: _offset.dy,
+          child: Draggable(
+            childWhenDragging: const SizedBox.shrink(),
+            onDragEnd: _dragUpdate,
+            feedback: _floatingWidget(),
+            child: _floatingWidget(),
+          ),
         ),
       ],
     );
@@ -99,18 +83,17 @@ class _NetWorkCaptureState extends State<NetWorkCaptureInit> {
 
   ///抓包结果入口
   Widget _floatingWidget() {
-    return GestureDetector(
-      onTap: () => NetworkListWidget.showDialog(context),
-      child: Card(
-        color: Colors.white,
-        shadowColor: Colors.black,
-        elevation: 2.cw,
-        child: Image.asset(
-          NetworkCaptureAssets.icEntrance,
-          width: iconSize.width,
-          height: iconSize.height,
-        ),
+    return FloatingActionButton(
+      elevation: 3.cw,
+      backgroundColor: Colors.white,
+      child: Image.asset(
+        NetworkCaptureAssets.icEntrance,
+        width: iconSize.width,
+        height: iconSize.height,
       ),
+      onPressed: () {
+        NetworkListWidget.showDialog(context);
+      },
     );
   }
 }

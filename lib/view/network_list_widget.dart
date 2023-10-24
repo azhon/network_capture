@@ -7,6 +7,7 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
+import 'package:network_capture/network_capture.dart';
 import 'package:network_capture/view/widget/request_item_widget.dart';
 
 class NetworkListWidget extends StatefulWidget {
@@ -18,23 +19,24 @@ class NetworkListWidget extends StatefulWidget {
   static Future showDialog(
     BuildContext context,
   ) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: const Color(0xFFEEEEEE),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.cw),
-          topRight: Radius.circular(16.cw),
+    return ncNavigator.push(
+      ModalBottomSheetRoute(
+        isScrollControlled: true,
+        backgroundColor: const Color(0xFFEEEEEE),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.cw),
+            topRight: Radius.circular(16.cw),
+          ),
         ),
+        builder: (_) {
+          final height = MediaQuery.of(context).size.height * 0.9;
+          return SizedBox(
+            height: height,
+            child: const NetworkListWidget(),
+          );
+        },
       ),
-      builder: (_) {
-        final height = MediaQuery.of(context).size.height * 0.9;
-        return SizedBox(
-          height: height,
-          child: const NetworkListWidget(),
-        );
-      },
     );
   }
 }
