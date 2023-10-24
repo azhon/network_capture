@@ -39,9 +39,9 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
           padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
           child: Column(
             children: [
-              _rowWidget('Time', _getDate()),
-              _rowWidget('Uri', widget.table.path),
+              _rowWidget('Uri', widget.table.path, import: true),
               _rowWidget('Host', widget.table.origin),
+              _rowWidget('Time', _getDate()),
               Row(
                 children: [
                   _label('${widget.table.method}'),
@@ -80,7 +80,11 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
     );
   }
 
-  Widget _rowWidget(String title, String value) {
+  Widget _rowWidget(
+    String title,
+    String value, {
+    bool import = false,
+  }) {
     return Row(
       children: [
         Text(
@@ -95,7 +99,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
           value,
           style: TextStyle(
             fontSize: 12.csp,
-            color: const Color(0xFF666666),
+            color: import ? const Color(0xFF333333) : const Color(0xFF666666),
           ),
         ),
       ],

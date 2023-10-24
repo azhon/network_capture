@@ -66,6 +66,7 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
         Expanded(
           child: ListView.separated(
             itemCount: list?.length ?? 0,
+            padding: EdgeInsets.only(bottom: 16.cw),
             separatorBuilder: (_, index) {
               return SizedBox(height: 10.cw);
             },
