@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
@@ -13,6 +12,7 @@ import 'package:network_capture/http/response/http_client_response_adapter.dart'
 /// @author azhon
 class CaptureHttpResponse extends HttpClientResponseAdapter {
   late NetworkHistoryTable table;
+  final List<int> _data = [];
 
   CaptureHttpResponse(this.table, super.origin);
 
@@ -26,7 +26,12 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     streamTransformer = StreamTransformer.fromHandlers(
       handleData: (data, sink) {
         sink.add(data as S);
-        _decodeResponse(data);
+        _data.addAll(data);
+      },
+      handleDone: (sink) {
+        sink.close();
+        _decodeResponse(_data);
+        _data.clear();
       },
     );
     return origin.transform(streamTransformer);
@@ -47,19 +52,12 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
   }
 
   ///解析返回的数据
-  void _decodeResponse(event) {
-    String? data;
-    if (event is String) {
-      data = event;
-      table.contentLength = utf8.encode(event).length;
-    } else if (event is Uint8List) {
-      data = _getEncoding()?.decode(event);
-      table.contentLength = event.length;
-    }
-    table.response = data;
-    table.endTime = DateTime.now().millisecondsSinceEpoch;
+  void _decodeResponse(List<int> data) {
+    table.contentLength = contentLength;
     table.statusCode = statusCode;
     table.reasonPhrase = reasonPhrase;
+    table.response = _getEncoding()?.decode(data);
+    table.endTime = DateTime.now().millisecondsSinceEpoch;
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
   }
 
