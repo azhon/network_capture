@@ -18,18 +18,30 @@ class NetWorkCaptureButton extends StatefulWidget {
   State createState() => _NetWorkCaptureButtonState();
 }
 
-class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton> {
+class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
+    with TickerProviderStateMixin {
   ///当前位置
   Offset _offset = Offset.zero;
 
   ///按钮大小
   Size get iconSize => Size.square(56.cw);
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     HttpOverrides.global = CaptureHttpOverrides();
     AppDb.instance.init();
+    _createAnimation();
+  }
+
+  void _createAnimation() {
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 1, end: 0).animate(_animationController);
   }
 
   @override
@@ -83,16 +95,27 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton> {
 
   ///抓包结果入口
   Widget _floatingWidget() {
-    return FloatingActionButton(
-      elevation: 3.cw,
-      backgroundColor: Colors.white,
-      child: Image.asset(
-        NetworkCaptureAssets.icEntrance,
-        width: iconSize.width,
-        height: iconSize.height,
-      ),
-      onPressed: () {
-        NetworkListWidget.showDialog(context);
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (_, child) {
+        return Transform.scale(
+          scale: _animation.value,
+          child: FloatingActionButton(
+            elevation: 3.cw,
+            backgroundColor: Colors.white,
+            child: Image.asset(
+              NetworkCaptureAssets.icEntrance,
+              width: iconSize.width,
+              height: iconSize.height,
+            ),
+            onPressed: () async {
+              // ignore: unawaited_futures
+              _animationController.forward();
+              await NetworkListWidget.showDialog();
+              await _animationController.reverse();
+            },
+          ),
+        );
       },
     );
   }

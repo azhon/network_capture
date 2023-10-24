@@ -16,10 +16,8 @@ class NetworkListWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NetworkListWidgetState();
 
-  static Future showDialog(
-    BuildContext context,
-  ) {
-    return ncNavigator.push(
+  static Future<T?> showDialog<T>() {
+    return ncNavigator.push<T?>(
       ModalBottomSheetRoute(
         isScrollControlled: true,
         backgroundColor: const Color(0xFFEEEEEE),
@@ -30,7 +28,7 @@ class NetworkListWidget extends StatefulWidget {
           ),
         ),
         builder: (_) {
-          final height = MediaQuery.of(context).size.height * 0.9;
+          final height = MediaQuery.of(_).size.height * 0.9;
           return SizedBox(
             height: height,
             child: const NetworkListWidget(),
