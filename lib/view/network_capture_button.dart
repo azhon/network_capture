@@ -23,7 +23,7 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton> {
   Offset _offset = Offset.zero;
 
   ///按钮大小
-  Size get iconSize => Size.square(48.cw);
+  Size get iconSize => Size.square(56.cw);
 
   @override
   void initState() {
