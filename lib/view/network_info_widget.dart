@@ -3,6 +3,7 @@
 ///
 /// @author azhon
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
@@ -201,7 +202,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
       'Copy cURL Request',
       'Copy Response',
     ];
-    return PopupMenuButton(
+    return PopupMenuButton<String>(
       itemBuilder: (_) {
         return menus
             .map(
@@ -219,10 +220,40 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
             )
             .toList();
       },
+      onSelected: _menuClick,
       child: const Icon(
         Icons.menu,
         color: Colors.white,
       ),
     );
+  }
+
+  void _menuClick(String value) {
+    String text = '';
+    switch (value) {
+      case 'Copy URL':
+        text = widget.table.url ?? '';
+        break;
+      case 'Copy cURL Request':
+        text = _createCurl(widget.table);
+        break;
+      case 'Copy Response':
+        text = widget.table.response ?? '';
+        break;
+    }
+    Clipboard.setData(ClipboardData(text: text));
+  }
+
+  String _createCurl(NetworkHistoryTable table) {
+    final sb = StringBuffer();
+    sb.write('curl');
+    table.requestHeaders?.forEach((key, value) {
+      sb.write(' -H "$key: $value"');
+    });
+    if (table.method == 'POST') {
+      sb.write(' --data-binary "${table.params?.replaceAll('"', r'\"')}"');
+    }
+    sb.write(' --compressed "${table.url}"');
+    return sb.toString();
   }
 }

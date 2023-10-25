@@ -40,12 +40,15 @@ class HexWidget extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 16.cw),
-                        Text(
-                          e.hex,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 12.csp,
-                            color: const Color(0xFF333333),
+                        SizedBox(
+                          width: 260.cw,
+                          child: Text(
+                            e.hex,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 12.csp,
+                              color: const Color(0xFF333333),
+                            ),
                           ),
                         ),
                         SizedBox(width: 16.cw),
