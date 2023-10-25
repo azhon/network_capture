@@ -21,7 +21,7 @@ class NetworkListWidget extends StatefulWidget {
     return ncNavigator.push<T?>(
       ModalBottomSheetRoute(
         isScrollControlled: true,
-        backgroundColor: const Color(0xFFEEEEEE),
+        backgroundColor: const Color(0xFFF6F7F9),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16.cw),

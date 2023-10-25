@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/theme_map.dart';
-import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/view/widget/flutter_highlight_selectable.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 /// createTime: 2023/10/23 on 15:56
@@ -31,7 +30,7 @@ class JsonTextWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HighlightView(
+              HighlightViewSelectable(
                 const JsonEncoder.withIndent('  ')
                     .convert(jsonDecode(text ?? '')),
                 padding: EdgeInsets.only(left: leftPadding),
