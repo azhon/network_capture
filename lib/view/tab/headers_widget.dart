@@ -6,29 +6,23 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 ///
 /// @author azhon
 class HeadersWidget extends StatelessWidget {
-  final Map<String, dynamic>? topHeaders;
   final Map<String, dynamic>? headers;
 
   const HeadersWidget({
     required this.headers,
-    this.topHeaders,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _children(topHeaders) + _children(headers),
+    final keys = headers?.keys.toList();
+    final values = headers?.values.toList();
+    return ListView.builder(
+      itemCount: keys?.length,
+      itemBuilder: (_, index) {
+        return _rowWidget(keys![index], values![index]);
+      },
     );
-  }
-
-  List<Widget> _children(Map<String, dynamic>? headers) {
-    return headers?.keys
-            .map(
-              (e) => _rowWidget(e, headers[e]),
-            )
-            .toList() ??
-        [];
   }
 
   Widget _rowWidget(String key, String value) {

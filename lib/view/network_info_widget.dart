@@ -131,10 +131,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
             switch (e) {
               case 'Headers':
                 return HeadersWidget(
-                  topHeaders: {
+                  headers: {
                     '': '${widget.table.method} ${widget.table.pathParams}',
-                  },
-                  headers: widget.table.requestHeaders,
+                  }..addAll(widget.table.requestHeaders ?? {}),
                 );
               case 'Query String':
                 return QueryStringWidget(
@@ -168,10 +167,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
             switch (e) {
               case 'Headers':
                 return HeadersWidget(
-                  topHeaders: {
+                  headers: {
                     '': '${widget.table.statusCode} ${widget.table.reasonPhrase}',
-                  },
-                  headers: widget.table.responseHeaders,
+                  }..addAll(widget.table.responseHeaders ?? {}),
                 );
               case 'JSON Text':
                 return JsonTextWidget(
