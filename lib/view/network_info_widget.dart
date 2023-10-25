@@ -79,6 +79,12 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         widget.table.path,
         style: TextStyle(color: Colors.white, fontSize: 14.csp),
       ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(right: 16.cw),
+          child: _menu(),
+        ),
+      ],
     );
   }
 
@@ -185,6 +191,37 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
           })
           .cast<Widget>()
           .toList(),
+    );
+  }
+
+  Widget _menu() {
+    final List<String> menus = [
+      'Copy URL',
+      'Copy cURL Request',
+      'Copy Response',
+    ];
+    return PopupMenuButton(
+      itemBuilder: (_) {
+        return menus
+            .map(
+              (e) => PopupMenuItem<String>(
+                height: 30.cw,
+                value: e,
+                labelTextStyle: MaterialStateTextStyle.resolveWith(
+                  (states) => TextStyle(
+                    fontSize: 12.csp,
+                    color: const Color(0xFF333333),
+                  ),
+                ),
+                child: Text(e),
+              ),
+            )
+            .toList();
+      },
+      child: const Icon(
+        Icons.menu,
+        color: Colors.white,
+      ),
     );
   }
 }
