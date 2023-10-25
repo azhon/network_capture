@@ -174,7 +174,8 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               case 'Headers':
                 return HeadersWidget(
                   headers: {
-                    '': '${widget.table.statusCode} ${widget.table.reasonPhrase}',
+                    '': 'HTTP/1.1 ${widget.table.statusCode} '
+                        '${widget.table.reasonPhrase}',
                   }..addAll(widget.table.responseHeaders ?? {}),
                 );
               case 'JSON Text':
