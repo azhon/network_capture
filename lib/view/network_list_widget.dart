@@ -29,7 +29,7 @@ class NetworkListWidget extends StatefulWidget {
           ),
         ),
         builder: (_) {
-          final height = MediaQuery.of(_).size.height * 0.9;
+          final height = MediaQuery.of(_).size.height * 0.85;
           return SizedBox(
             height: height,
             child: const NetworkListWidget(),
