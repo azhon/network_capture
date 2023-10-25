@@ -21,29 +21,31 @@ class QueryStringWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map params = jsonDecode(queryString ?? '');
     int line = 0;
-    return LayoutBuilder(
-      builder: (context, constrain) {
-        return Table(
-          columnWidths: {
-            0: MaxColumnWidth(
-              FixedColumnWidth(constrain.maxWidth * 0.3),
-              const FractionColumnWidth(0.1),
-            ),
-            1: MaxColumnWidth(
-              FixedColumnWidth(constrain.maxWidth * 0.7),
-              const FractionColumnWidth(0.1),
-            ),
-          },
-          children: [
-                _tableHeader(),
-              ] +
-              params.keys
-                  .map(
-                    (e) => _tableRow(e, params[e], ++line),
-                  )
-                  .toList(),
-        );
-      },
+    return SelectionArea(
+      child: LayoutBuilder(
+        builder: (context, constrain) {
+          return Table(
+            columnWidths: {
+              0: MaxColumnWidth(
+                FixedColumnWidth(constrain.maxWidth * 0.3),
+                const FractionColumnWidth(0.1),
+              ),
+              1: MaxColumnWidth(
+                FixedColumnWidth(constrain.maxWidth * 0.7),
+                const FractionColumnWidth(0.1),
+              ),
+            },
+            children: [
+                  _tableHeader(),
+                ] +
+                params.keys
+                    .map(
+                      (e) => _tableRow(e, params[e], ++line),
+                    )
+                    .toList(),
+          );
+        },
+      ),
     );
   }
 

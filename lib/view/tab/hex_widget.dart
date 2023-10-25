@@ -26,40 +26,42 @@ class HexWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: list.map((e) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 2.cw),
-                  child: Row(
-                    children: [
-                      Text(
-                        e.num,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 12.csp,
-                          color: const Color(0xFF333333),
+                return SelectionArea(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 2.cw),
+                    child: Row(
+                      children: [
+                        Text(
+                          e.num,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12.csp,
+                            color: const Color(0xFF333333),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 16.cw),
-                      Text(
-                        e.hex,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 12.csp,
-                          color: const Color(0xFF333333),
+                        SizedBox(width: 16.cw),
+                        Text(
+                          e.hex,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12.csp,
+                            color: const Color(0xFF333333),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 16.cw),
-                      Text(
-                        e.str
-                            .replaceAll('\n', '')
-                            .replaceAll('\t', '  ')
-                            .replaceAll('�', ' '),
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 12.csp,
-                          color: const Color(0xFF333333),
+                        SizedBox(width: 16.cw),
+                        Text(
+                          e.str
+                              .replaceAll('\n', '')
+                              .replaceAll('\t', '  ')
+                              .replaceAll('�', ' '),
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12.csp,
+                            color: const Color(0xFF333333),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }).toList(),

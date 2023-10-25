@@ -19,12 +19,14 @@ class HeadersWidget extends StatelessWidget {
     final keys = headers?.keys.toList();
     final values = headers?.values.toList();
     return RemoveRippleWidget(
-      child: ListView.builder(
-        itemCount: keys?.length,
-        padding: EdgeInsets.only(right: 8.cw),
-        itemBuilder: (_, index) {
-          return _rowWidget(keys![index], values![index]);
-        },
+      child: SelectionArea(
+        child: ListView.builder(
+          itemCount: keys?.length,
+          padding: EdgeInsets.only(right: 8.cw),
+          itemBuilder: (_, index) {
+            return _rowWidget(keys![index], values![index]);
+          },
+        ),
       ),
     );
   }

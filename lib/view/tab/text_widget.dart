@@ -17,7 +17,7 @@ class TextWidget extends StatelessWidget {
       padding: EdgeInsets.only(left: 4.cw),
       child: RemoveRippleWidget(
         child: SingleChildScrollView(
-          child: Text(
+          child: SelectableText(
             text ?? '',
             style: TextStyle(
               fontSize: 12.csp,
