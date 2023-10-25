@@ -19,42 +19,49 @@ class HexWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 4.cw, right: 4.cw),
       child: SingleChildScrollView(
-        child: Column(
-          children: list.map((e) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: 2.cw),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 70.cw,
-                    child: Text(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: list.map((e) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 2.cw),
+                child: Row(
+                  children: [
+                    Text(
                       e.num,
+                      maxLines: 1,
                       style: TextStyle(
                         fontSize: 12.csp,
                         color: const Color(0xFF333333),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
+                    SizedBox(width: 16.cw),
+                    Text(
                       e.hex,
+                      maxLines: 1,
                       style: TextStyle(
                         fontSize: 12.csp,
                         color: const Color(0xFF333333),
                       ),
                     ),
-                  ),
-                  Text(
-                    e.str,
-                    style: TextStyle(
-                      fontSize: 12.csp,
-                      color: const Color(0xFF333333),
+                    SizedBox(width: 16.cw),
+                    Text(
+                      e.str
+                          .replaceAll('\n', '')
+                          .replaceAll('\t', '  ')
+                          .replaceAll('�', ' '),
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12.csp,
+                        color: const Color(0xFF333333),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
@@ -62,7 +69,7 @@ class HexWidget extends StatelessWidget {
 
   List<HexResult> _calcHex() {
     final List<HexResult> result = [];
-    const int length = 12;
+    const int length = 16;
     final list = utf8.encode(text ?? '');
     final line = (list.length / length).ceil();
 
@@ -72,7 +79,7 @@ class HexWidget extends StatelessWidget {
       final str = list.sublist(start, end > list.length ? list.length : end);
       result.add(
         HexResult(
-          start.toRadixString(16).padLeft(6, '0'),
+          start.toRadixString(16).padLeft(8, '0'),
           HexUtil.encode(str),
           utf8.decode(str, allowMalformed: true),
         ),
