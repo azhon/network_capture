@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/util/hex_util.dart';
+import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 /// createTime: 2023/10/23 on 15:56
 /// desc:
@@ -18,49 +19,51 @@ class HexWidget extends StatelessWidget {
     final list = _calcHex();
     return Padding(
       padding: EdgeInsets.only(left: 4.cw, right: 4.cw),
-      child: SingleChildScrollView(
+      child: RemoveRippleWidget(
         child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: list.map((e) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: 2.cw),
-                child: Row(
-                  children: [
-                    Text(
-                      e.num,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 12.csp,
-                        color: const Color(0xFF333333),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: list.map((e) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 2.cw),
+                  child: Row(
+                    children: [
+                      Text(
+                        e.num,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 12.csp,
+                          color: const Color(0xFF333333),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 16.cw),
-                    Text(
-                      e.hex,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 12.csp,
-                        color: const Color(0xFF333333),
+                      SizedBox(width: 16.cw),
+                      Text(
+                        e.hex,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 12.csp,
+                          color: const Color(0xFF333333),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 16.cw),
-                    Text(
-                      e.str
-                          .replaceAll('\n', '')
-                          .replaceAll('\t', '  ')
-                          .replaceAll('�', ' '),
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 12.csp,
-                        color: const Color(0xFF333333),
+                      SizedBox(width: 16.cw),
+                      Text(
+                        e.str
+                            .replaceAll('\n', '')
+                            .replaceAll('\t', '  ')
+                            .replaceAll('�', ' '),
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 12.csp,
+                          color: const Color(0xFF333333),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),

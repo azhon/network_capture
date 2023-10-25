@@ -8,6 +8,7 @@ import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/network_capture.dart';
+import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 import 'package:network_capture/view/widget/request_item_widget.dart';
 
 class NetworkListWidget extends StatefulWidget {
@@ -64,16 +65,18 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
       children: [
         _header(),
         Expanded(
-          child: ListView.separated(
-            itemCount: list?.length ?? 0,
-            padding: EdgeInsets.only(bottom: 16.cw),
-            separatorBuilder: (_, index) {
-              return SizedBox(height: 10.cw);
-            },
-            itemBuilder: (_, index) {
-              final table = NetworkHistoryTable.fromMap(list![index]);
-              return RequestItemWidget(table: table);
-            },
+          child: RemoveRippleWidget(
+            child: ListView.separated(
+              itemCount: list?.length ?? 0,
+              padding: EdgeInsets.only(bottom: 16.cw),
+              separatorBuilder: (_, index) {
+                return SizedBox(height: 10.cw);
+              },
+              itemBuilder: (_, index) {
+                final table = NetworkHistoryTable.fromMap(list![index]);
+                return RequestItemWidget(table: table);
+              },
+            ),
           ),
         ),
       ],

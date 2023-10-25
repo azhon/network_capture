@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/theme_map.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 /// createTime: 2023/10/23 on 15:56
 /// desc:
@@ -23,21 +24,23 @@ class JsonTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return RemoveRippleWidget(
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HighlightView(
-              const JsonEncoder.withIndent('  ')
-                  .convert(jsonDecode(text ?? '')),
-              padding: EdgeInsets.only(left: leftPadding),
-              language: 'json',
-              theme: _codeTheme(),
-              textStyle: TextStyle(fontSize: fontSize),
-            ),
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HighlightView(
+                const JsonEncoder.withIndent('  ')
+                    .convert(jsonDecode(text ?? '')),
+                padding: EdgeInsets.only(left: leftPadding),
+                language: 'json',
+                theme: _codeTheme(),
+                textStyle: TextStyle(fontSize: fontSize),
+              ),
+            ],
+          ),
         ),
       ),
     );

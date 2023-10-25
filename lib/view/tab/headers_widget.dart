@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 /// createTime: 2023/10/23 on 14:53
 /// desc:
@@ -17,11 +18,14 @@ class HeadersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final keys = headers?.keys.toList();
     final values = headers?.values.toList();
-    return ListView.builder(
-      itemCount: keys?.length,
-      itemBuilder: (_, index) {
-        return _rowWidget(keys![index], values![index]);
-      },
+    return RemoveRippleWidget(
+      child: ListView.builder(
+        itemCount: keys?.length,
+        padding: EdgeInsets.only(right: 8.cw),
+        itemBuilder: (_, index) {
+          return _rowWidget(keys![index], values![index]);
+        },
+      ),
     );
   }
 
