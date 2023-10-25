@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
-import 'package:network_capture/core/capture_http_overrides.dart';
+import 'package:network_capture/http/capture_http_overrides.dart';
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/view/network_list_widget.dart';

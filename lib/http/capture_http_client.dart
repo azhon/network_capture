@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:network_capture/core/http_client_adapter.dart';
+import 'package:network_capture/http/http_client_adapter.dart';
 import 'package:network_capture/http/request/capture_http_request.dart';
 
 /// createTime: 2023/10/20 on 11:40
