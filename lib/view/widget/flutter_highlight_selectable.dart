@@ -75,17 +75,19 @@ class HighlightViewSelectable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(
+    var _textStyle = TextStyle(
       fontFamily: _defaultFontFamily,
       color: theme[_rootKey]?.color ?? _defaultFontColor,
     );
-    textStyle = textStyle.merge(textStyle);
+    if (textStyle != null) {
+      _textStyle = _textStyle.merge(textStyle);
+    }
     return Container(
       color: theme[_rootKey]?.backgroundColor ?? _defaultBackgroundColor,
       padding: padding,
       child: SelectableText.rich(
         TextSpan(
-          style: textStyle,
+          style: _textStyle,
           children:
               _convert(highlight.parse(source, language: language).nodes!),
         ),
