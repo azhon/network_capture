@@ -103,10 +103,13 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
           child: FloatingActionButton(
             elevation: 3.cw,
             backgroundColor: Colors.white,
-            child: Image.asset(
-              NetworkCaptureAssets.icEntrance,
-              width: iconSize.width,
-              height: iconSize.height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(iconSize.width),
+              child: Image.asset(
+                NetworkCaptureAssets.icEntrance,
+                width: iconSize.width,
+                height: iconSize.height,
+              ),
             ),
             onPressed: () async {
               // ignore: unawaited_futures
