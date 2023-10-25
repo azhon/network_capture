@@ -19,11 +19,12 @@ class CaptureHttpRequest extends HttpClientRequestAdapter {
       params: jsonEncode(origin.uri.queryParameters),
       startTime: DateTime.now().millisecondsSinceEpoch,
     );
-    table.requestHeaders = table.transformHeaders(origin.headers);
   }
 
   @override
   Future<HttpClientResponse> close() {
+    ///在这里才能拿到所有的headers
+    table.requestHeaders = table.transformHeaders(origin.headers);
     return _proxy(origin.close());
   }
 
