@@ -9,12 +9,14 @@ import 'package:network_capture/view/network_capture_button.dart';
 late NavigatorState ncNavigator;
 
 class NetworkCaptureApp extends StatefulWidget {
+  final bool enable;
   final Widget child;
   final GlobalKey<NavigatorState> navigatorKey;
 
   const NetworkCaptureApp({
     required this.child,
     required this.navigatorKey,
+    this.enable = true,
     super.key,
   });
 
@@ -28,6 +30,9 @@ class _NetworkCaptureAppState extends State<NetworkCaptureApp> {
   @override
   void initState() {
     super.initState();
+    if (!widget.enable) {
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _findNavigator();
       _overlayKey.currentState?.insert(
@@ -45,6 +50,9 @@ class _NetworkCaptureAppState extends State<NetworkCaptureApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.enable) {
+      return widget.child;
+    }
     return Material(
       child: Directionality(
         textDirection: TextDirection.ltr,
