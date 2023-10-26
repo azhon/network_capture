@@ -24,6 +24,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => NetworkInfoWidget(table: widget.table),

@@ -64,36 +64,40 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _header(),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.cw),
-          child: SearchWidget(
-            search: (List<dynamic>? sql) {
-              _refresh(sql?.first, sql?.last);
-            },
-          ),
-        ),
-        if (list?.isEmpty ?? true)
-          _emptyView()
-        else
-          Expanded(
-            child: RemoveRippleWidget(
-              child: ListView.separated(
-                itemCount: list?.length ?? 0,
-                padding: EdgeInsets.only(bottom: 16.cw),
-                separatorBuilder: (_, index) {
-                  return SizedBox(height: 10.cw);
-                },
-                itemBuilder: (_, index) {
-                  final table = NetworkHistoryTable.fromMap(list![index]);
-                  return RequestItemWidget(table: table);
-                },
-              ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Column(
+        children: [
+          _header(),
+          Padding(
+            padding: EdgeInsets.only(top: 4.cw),
+            child: SearchWidget(
+              search: (List<dynamic>? sql) {
+                _refresh(sql?.first, sql?.last);
+              },
             ),
           ),
-      ],
+          if (list?.isEmpty ?? true)
+            _emptyView()
+          else
+            Expanded(
+              child: RemoveRippleWidget(
+                child: ListView.separated(
+                  itemCount: list?.length ?? 0,
+                  padding: EdgeInsets.only(top: 8.cw, bottom: 16.cw),
+                  separatorBuilder: (_, index) {
+                    return SizedBox(height: 10.cw);
+                  },
+                  itemBuilder: (_, index) {
+                    final table = NetworkHistoryTable.fromMap(list![index]);
+                    return RequestItemWidget(table: table);
+                  },
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 

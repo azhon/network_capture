@@ -122,4 +122,10 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
       },
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
 }
