@@ -21,6 +21,7 @@ class _SearchWidgetState extends State<SearchWidget>
   late AnimationController _animationController;
   late Animation<double> _animation;
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _textController = TextEditingController();
   final _condition = [
     CheckStatus('GET', false, CheckStatus.method),
     CheckStatus('POST', false, CheckStatus.method),
@@ -95,6 +96,7 @@ class _SearchWidgetState extends State<SearchWidget>
                     width: (width - 24.cw) * _animation.value,
                     height: 36.cw,
                     child: CupertinoTextField(
+                      controller: _textController,
                       focusNode: _focusNode,
                       placeholder: 'Input host、uri、path、params',
                       cursorColor: Colors.black,
@@ -113,6 +115,7 @@ class _SearchWidgetState extends State<SearchWidget>
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8.cw),
                       ),
+                      onSubmitted: _inputSearch,
                     ),
                   );
                 },
@@ -128,6 +131,7 @@ class _SearchWidgetState extends State<SearchWidget>
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        _textController.text = '';
         setState(() {
           status.check = !status.check;
         });
@@ -197,10 +201,28 @@ class _SearchWidgetState extends State<SearchWidget>
     return [where.join(' AND '), args];
   }
 
+  void _inputSearch(String text) {
+    ///清除选中条件
+    _condition.forEach((e) => e.check = false);
+    if (text.isEmpty) {
+      widget.search?.call(null);
+      return;
+    }
+    widget.search?.call(
+      [
+        'url like ? OR params like ?',
+        ['%$text%', '%$text%'],
+      ],
+    );
+
+    setState(() {});
+  }
+
   @override
   void dispose() {
     super.dispose();
     _animationController.dispose();
+    _textController.dispose();
     _focusNode.dispose();
   }
 }
