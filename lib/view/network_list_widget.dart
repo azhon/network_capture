@@ -10,6 +10,7 @@ import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/network_capture.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 import 'package:network_capture/view/widget/request_item_widget.dart';
+import 'package:network_capture/view/widget/search_widget.dart';
 
 class NetworkListWidget extends StatefulWidget {
   const NetworkListWidget({super.key});
@@ -46,16 +47,18 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
   @override
   void initState() {
     super.initState();
-    _refresh();
+    _refresh(null, null);
   }
 
-  void _refresh() {
-    AppDb.instance
-        .query(NetworkHistoryTable.tableName, orderBy: 'id DESC')
-        .then((value) {
-      setState(() {
-        list = value;
-      });
+  Future<void> _refresh(String? where, List<Object?>? whereArgs) async {
+    final value = await AppDb.instance.query(
+      NetworkHistoryTable.tableName,
+      where: where,
+      whereArgs: whereArgs,
+      orderBy: 'id DESC',
+    );
+    setState(() {
+      list = value;
     });
   }
 
@@ -64,51 +67,83 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
     return Column(
       children: [
         _header(),
-        Expanded(
-          child: RemoveRippleWidget(
-            child: ListView.separated(
-              itemCount: list?.length ?? 0,
-              padding: EdgeInsets.only(bottom: 16.cw),
-              separatorBuilder: (_, index) {
-                return SizedBox(height: 10.cw);
-              },
-              itemBuilder: (_, index) {
-                final table = NetworkHistoryTable.fromMap(list![index]);
-                return RequestItemWidget(table: table);
-              },
-            ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.cw),
+          child: SearchWidget(
+            search: (List<dynamic>? sql) {
+              _refresh(sql?.first, sql?.last);
+            },
           ),
         ),
+        if (list?.isEmpty ?? true)
+          _emptyView()
+        else
+          Expanded(
+            child: RemoveRippleWidget(
+              child: ListView.separated(
+                itemCount: list?.length ?? 0,
+                padding: EdgeInsets.only(bottom: 16.cw),
+                separatorBuilder: (_, index) {
+                  return SizedBox(height: 10.cw);
+                },
+                itemBuilder: (_, index) {
+                  final table = NetworkHistoryTable.fromMap(list![index]);
+                  return RequestItemWidget(table: table);
+                },
+              ),
+            ),
+          ),
       ],
     );
   }
 
   Widget _header() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.cw),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(width: 36.cw),
-          Text(
-            '网络请求',
-            style: TextStyle(fontSize: 18.cw, fontWeight: FontWeight.w500),
-          ),
-          GestureDetector(
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.cw),
-              child: Image.asset(
-                NetworkCaptureAssets.icClear,
-                width: 20.cw,
-                height: 20.cw,
-              ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white70,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.cw),
+          topRight: Radius.circular(16.cw),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.cw),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 36.cw),
+            Text(
+              '网络请求',
+              style: TextStyle(fontSize: 18.cw, fontWeight: FontWeight.w500),
             ),
-            onTap: () {
-              AppDb.instance.delete(NetworkHistoryTable.tableName);
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.only(right: 16.cw),
+                child: Image.asset(
+                  NetworkCaptureAssets.icClear,
+                  width: 20.cw,
+                  height: 20.cw,
+                ),
+              ),
+              onTap: () {
+                AppDb.instance.delete(NetworkHistoryTable.tableName);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _emptyView() {
+    return Padding(
+      padding: EdgeInsets.only(top: 100.cw),
+      child: Image.asset(
+        NetworkCaptureAssets.icEmpty,
+        width: 96.cw,
+        height: 96.cw,
+        color: Colors.grey,
       ),
     );
   }
