@@ -62,10 +62,14 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
                       queryString: widget.params,
                       leftPadding: 4.cw,
                     )
-                  : JsonTextWidget(
-                      text: widget.params,
-                      leftPadding: 2.cw,
-                      fontSize: 10.cw,
+                  : Row(
+                      children: [
+                        JsonTextWidget(
+                          text: widget.params,
+                          leftPadding: 2.cw,
+                          fontSize: 10.cw,
+                        ),
+                      ],
                     ),
             ),
           ],

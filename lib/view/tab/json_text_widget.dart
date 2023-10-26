@@ -27,18 +27,12 @@ class JsonTextWidget extends StatelessWidget {
       child: SingleChildScrollView(
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HighlightViewSelectable(
-                const JsonEncoder.withIndent('  ')
-                    .convert(jsonDecode(text ?? '')),
-                padding: EdgeInsets.only(left: leftPadding),
-                language: 'json',
-                theme: _codeTheme(),
-                textStyle: TextStyle(fontSize: fontSize),
-              ),
-            ],
+          child: HighlightViewSelectable(
+            const JsonEncoder.withIndent('  ').convert(jsonDecode(text ?? '')),
+            padding: EdgeInsets.only(left: leftPadding),
+            language: 'json',
+            theme: _codeTheme(),
+            textStyle: TextStyle(fontSize: fontSize),
           ),
         ),
       ),
