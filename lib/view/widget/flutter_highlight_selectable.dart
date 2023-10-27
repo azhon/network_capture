@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:highlight/highlight.dart' show highlight, Node;
 
-/// Highlight Flutter Widget
-class HighlightViewSelectable extends StatelessWidget {
+class HighlightViewSelectable extends StatefulWidget {
   /// The original code to be highlighted
   final String source;
 
@@ -25,30 +25,66 @@ class HighlightViewSelectable extends StatelessWidget {
   ///
   /// Specify text styles such as font family and font size
   final TextStyle? textStyle;
+  final bool wantKeepAlive;
 
   HighlightViewSelectable(
     String input, {
+    super.key,
     this.language,
     this.theme = const {},
     this.padding,
     this.textStyle,
+    this.wantKeepAlive = false,
     int tabSize = 8,
   }) : source = input.replaceAll('\t', ' ' * tabSize);
 
-  List<TextSpan> _convert(List<Node> nodes) {
+  @override
+  State<StatefulWidget> createState() => _HighlightViewSelectableState();
+}
+
+class _HighlightViewSelectableState extends State<HighlightViewSelectable>
+    with AutomaticKeepAliveClientMixin {
+  static const _rootKey = 'root';
+  static const _defaultFontColor = Color(0xff000000);
+  static const _defaultBackgroundColor = Color(0xffffffff);
+
+  // See: https://github.com/flutter/flutter/issues/39998
+  // So we just use monospace here for now
+  static const _defaultFontFamily = 'monospace';
+  List<TextSpan>? _list;
+
+  @override
+  void initState() {
+    super.initState();
+    compute(_convert, [widget.source, widget.language, widget.theme])
+        .then((value) {
+      setState(() {
+        _list = value;
+      });
+    });
+  }
+
+  static List<TextSpan> _convert(List<dynamic> params) {
+    final List<Node> nodes =
+        highlight.parse(params[0], language: params[1]).nodes!;
     final List<TextSpan> spans = [];
     var currentSpans = spans;
     final List<List<TextSpan>> stack = [];
 
     _traverse(Node node) {
       if (node.value != null) {
-        currentSpans.add(node.className == null
-            ? TextSpan(text: node.value)
-            : TextSpan(text: node.value, style: theme[node.className!]));
+        currentSpans.add(
+          node.className == null
+              ? TextSpan(text: node.value)
+              : TextSpan(
+                  text: node.value,
+                  style: params[2][node.className!],
+                ),
+        );
       } else if (node.children != null) {
         final List<TextSpan> tmp = [];
         currentSpans
-            .add(TextSpan(children: tmp, style: theme[node.className!]));
+            .add(TextSpan(children: tmp, style: params[2][node.className!]));
         stack.add(currentSpans);
         currentSpans = tmp;
 
@@ -65,33 +101,38 @@ class HighlightViewSelectable extends StatelessWidget {
     return spans;
   }
 
-  static const _rootKey = 'root';
-  static const _defaultFontColor = Color(0xff000000);
-  static const _defaultBackgroundColor = Color(0xffffffff);
-
-  // See: https://github.com/flutter/flutter/issues/39998
-  // So we just use monospace here for now
-  static const _defaultFontFamily = 'monospace';
-
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var _textStyle = TextStyle(
       fontFamily: _defaultFontFamily,
-      color: theme[_rootKey]?.color ?? _defaultFontColor,
+      color: widget.theme[_rootKey]?.color ?? _defaultFontColor,
     );
-    if (textStyle != null) {
-      _textStyle = _textStyle.merge(textStyle);
+    if (widget.textStyle != null) {
+      _textStyle = _textStyle.merge(widget.textStyle);
     }
     return Container(
-      color: theme[_rootKey]?.backgroundColor ?? _defaultBackgroundColor,
-      padding: padding,
-      child: SelectableText.rich(
-        TextSpan(
-          style: _textStyle,
-          children:
-              _convert(highlight.parse(source, language: language).nodes!),
-        ),
-      ),
+      color: widget.theme[_rootKey]?.backgroundColor ?? _defaultBackgroundColor,
+      padding: widget.padding,
+      child: _list == null
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 230,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0XFFFF9900),
+                ),
+              ),
+            )
+          : SelectableText.rich(
+              TextSpan(
+                style: _textStyle,
+                children: _list,
+              ),
+            ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
 }

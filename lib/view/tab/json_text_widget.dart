@@ -33,6 +33,7 @@ class JsonTextWidget extends StatelessWidget {
             language: 'json',
             theme: _codeTheme(),
             textStyle: TextStyle(fontSize: fontSize),
+            wantKeepAlive: true,
           ),
         ),
       ),
