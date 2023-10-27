@@ -1,7 +1,7 @@
 name: network_capture
 description: Flutter developer、test network debugging tools
-version: 0.0.1
-homepage:
+version: 1.0.0
+homepage: https://github.com/azhon/network_capture
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
