@@ -20,7 +20,8 @@ class HexWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _HexWidgetState();
 }
 
-class _HexWidgetState extends State<HexWidget> {
+class _HexWidgetState extends State<HexWidget>
+    with AutomaticKeepAliveClientMixin {
   List<HexResult>? _list;
 
   @override
@@ -35,6 +36,7 @@ class _HexWidgetState extends State<HexWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (_list == null) {
       return const Center(
         child: CircularProgressIndicator(
@@ -126,6 +128,9 @@ class _HexWidgetState extends State<HexWidget> {
     }
     return result;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class HexResult {
