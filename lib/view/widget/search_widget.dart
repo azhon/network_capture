@@ -220,10 +220,10 @@ class _SearchWidgetState extends State<SearchWidget>
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
     _textController.dispose();
     _focusNode.dispose();
+    super.dispose();
   }
 }
 
