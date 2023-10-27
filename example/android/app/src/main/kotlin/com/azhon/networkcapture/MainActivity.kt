@@ -1,4 +1,4 @@
-package com.example.example
+package com.azhon.networkcapture
 
 import io.flutter.embedding.android.FlutterActivity
 
