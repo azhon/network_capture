@@ -96,11 +96,17 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
             color: const Color(0xFF333333),
           ),
         ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 12.csp,
-            color: import ? const Color(0xFF333333) : const Color(0xFF666666),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 12.csp,
+                color:
+                    import ? const Color(0xFF333333) : const Color(0xFF666666),
+              ),
+            ),
           ),
         ),
       ],
