@@ -28,6 +28,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   final List<String> rspTab = ['Headers', 'JSON Text', 'Text', 'Hex'];
   late TabController _reqController;
   late TabController _rspController;
+  final _minHeight = 50.cw;
+  double _topHeight = 200.cw;
+  double _maxHeight = 0;
 
   @override
   void initState() {
@@ -50,20 +53,40 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: Column(
-        children: [
-          _tabBar(reqTab, _reqController),
-          SizedBox(
-            height: 200.cw,
-            child: _reqTabBarView(),
-          ),
-          _tabBar(rspTab, _rspController),
-          Expanded(
-            child: _rspTabBarView(),
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          _maxHeight = constraints.maxHeight - _minHeight - 68.cw;
+          return Column(
+            children: [
+              _tabBar(reqTab, _reqController),
+              SizedBox(
+                height: _topHeight,
+                child: _reqTabBarView(),
+              ),
+              GestureDetector(
+                onVerticalDragUpdate: _dragUpdate,
+                child: _tabBar(rspTab, _rspController),
+              ),
+              Expanded(
+                child: _rspTabBarView(),
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  ///上下拖拽
+  void _dragUpdate(DragUpdateDetails details) {
+    _topHeight += details.delta.dy;
+    if (_topHeight <= _minHeight) {
+      _topHeight = _minHeight;
+    }
+    if (_topHeight >= _maxHeight) {
+      _topHeight = _maxHeight;
+    }
+    setState(() {});
   }
 
   AppBar _appBar() {
@@ -98,8 +121,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
             ),
       ),
       child: Container(
-        width: double.infinity,
+        height: 34.cw,
         color: Colors.black12,
+        width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.only(top: 4.cw, bottom: 4.cw),
         child: TabBar(
           isScrollable: true,
