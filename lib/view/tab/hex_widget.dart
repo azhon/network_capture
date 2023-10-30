@@ -47,62 +47,64 @@ class _HexWidgetState extends State<HexWidget>
     return Padding(
       padding: EdgeInsets.only(left: 4.cw, right: 4.cw),
       child: RemoveRippleWidget(
-        child: ListView.separated(
-          itemCount: _list!.length,
-          separatorBuilder: (_, index) {
-            return SizedBox(height: 2.cw);
-          },
-          itemBuilder: (_, index) {
-            final e = _list![index];
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Text(
-                    e.num,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 12.csp,
-                      color: const Color(0xFF333333),
-                    ),
-                  ),
-                  SizedBox(width: 16.cw),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        e.hex,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 12.csp,
-                          color: const Color(0xFF333333),
-                        ),
+        child: SelectionArea(
+          child: ListView.separated(
+            itemCount: _list!.length,
+            separatorBuilder: (_, index) {
+              return SizedBox(height: 2.cw);
+            },
+            itemBuilder: (_, index) {
+              final e = _list![index];
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Text(
+                      e.num,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12.csp,
+                        color: const Color(0xFF333333),
                       ),
-                      Text(
-                        '0' * (32 - e.hex.length),
-                        style: TextStyle(
-                          fontSize: 12.csp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 16.cw),
-                  Text(
-                    e.str
-                        .replaceAll('\n', '')
-                        .replaceAll('\t', '  ')
-                        .replaceAll('�', ' '),
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 12.csp,
-                      color: const Color(0xFF333333),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                    SizedBox(width: 16.cw),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          e.hex,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12.csp,
+                            color: const Color(0xFF333333),
+                          ),
+                        ),
+                        Text(
+                          '0' * (32 - e.hex.length),
+                          style: TextStyle(
+                            fontSize: 12.csp,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 16.cw),
+                    Text(
+                      e.str
+                          .replaceAll('\n', '')
+                          .replaceAll('\t', '  ')
+                          .replaceAll('�', ' '),
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12.csp,
+                        color: const Color(0xFF333333),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
