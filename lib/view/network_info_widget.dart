@@ -2,11 +2,14 @@
 /// desc:
 ///
 /// @author azhon
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
+import 'package:network_capture/util/constant.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
@@ -26,7 +29,7 @@ class NetworkInfoWidget extends StatefulWidget {
 class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     with TickerProviderStateMixin {
   final List<String> reqTab = [];
-  final List<String> rspTab = ['Headers', 'JSON Text', 'Text', 'Hex'];
+  final List<String> rspTab = [];
   late TabController _reqController;
   late TabController _rspController;
   final _minHeight = 50.cw;
@@ -37,17 +40,33 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   void initState() {
     super.initState();
     _reqController = _createReqTab();
-    _rspController = TabController(length: rspTab.length, vsync: this);
+    _rspController = _createRspTab();
   }
 
   ///不同的请求类型 tab不一样
   TabController _createReqTab() {
-    if (widget.table.method == 'GET') {
-      reqTab.addAll(['Headers', 'Query String']);
+    reqTab.add(Constant.headers);
+    if (widget.table.method == Constant.get) {
+      reqTab.add(Constant.queryString);
     } else {
-      reqTab.addAll(['Headers', 'JSON Text', 'Text', 'Hex']);
+      reqTab.add(Constant.jsonText);
+      reqTab.add(Constant.text);
+      reqTab.add(Constant.hex);
     }
     return TabController(length: reqTab.length, vsync: this);
+  }
+
+  TabController _createRspTab() {
+    rspTab.add(Constant.headers);
+
+    final String contentType =
+        widget.table.responseHeaders?[HttpHeaders.contentTypeHeader] ?? '';
+    if (contentType.contains(Constant.json)) {
+      rspTab.add(Constant.jsonText);
+    }
+    rspTab.add(Constant.text);
+    rspTab.add(Constant.hex);
+    return TabController(length: rspTab.length, vsync: this);
   }
 
   @override
@@ -175,26 +194,26 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
       children: reqTab
           .map((e) {
             switch (e) {
-              case 'Headers':
+              case Constant.headers:
                 return HeadersWidget(
                   headers: {
                     '': '${widget.table.method} ${widget.table.pathParams}',
                   }..addAll(widget.table.requestHeaders ?? {}),
                 );
-              case 'Query String':
+              case Constant.queryString:
                 return QueryStringWidget(
                   queryString: widget.table.params,
                   leftPadding: 8.cw,
                 );
-              case 'JSON Text':
+              case Constant.jsonText:
                 return JsonTextWidget(
                   text: widget.table.params,
                   fontSize: 12.csp,
                   leftPadding: 4.cw,
                 );
-              case 'Text':
+              case Constant.text:
                 return TextWidget(text: widget.table.params);
-              case 'Hex':
+              case Constant.hex:
                 return HexWidget(text: widget.table.params);
             }
           })
@@ -211,22 +230,22 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
       children: rspTab
           .map((e) {
             switch (e) {
-              case 'Headers':
+              case Constant.headers:
                 return HeadersWidget(
                   headers: {
                     '': 'HTTP/1.1 ${widget.table.statusCode} '
                         '${widget.table.reasonPhrase}',
                   }..addAll(widget.table.responseHeaders ?? {}),
                 );
-              case 'JSON Text':
+              case Constant.jsonText:
                 return JsonTextWidget(
                   text: widget.table.response,
                   fontSize: 12.csp,
                   leftPadding: 4.cw,
                 );
-              case 'Text':
+              case Constant.text:
                 return TextWidget(text: widget.table.response);
-              case 'Hex':
+              case Constant.hex:
                 return HexWidget(text: widget.table.response);
             }
           })
@@ -237,9 +256,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
 
   Widget _menu() {
     final List<String> menus = [
-      'Copy URL',
-      'Copy cURL Request',
-      'Copy Response',
+      Constant.copyUrl,
+      Constant.copyCUrl,
+      Constant.copyResponse,
     ];
     return PopupMenuButton<String>(
       itemBuilder: (_) {
@@ -270,13 +289,13 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   void _menuClick(String value) {
     String text = '';
     switch (value) {
-      case 'Copy URL':
+      case Constant.copyUrl:
         text = widget.table.url ?? '';
         break;
-      case 'Copy cURL Request':
+      case Constant.copyCUrl:
         text = _createCurl(widget.table);
         break;
-      case 'Copy Response':
+      case Constant.copyResponse:
         text = widget.table.response ?? '';
         break;
     }
@@ -289,7 +308,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     table.requestHeaders?.forEach((key, value) {
       sb.write(' -H "$key: $value"');
     });
-    if (table.method == 'POST') {
+    if (table.method == Constant.post) {
       sb.write(' --data-binary "${table.params?.replaceAll('"', r'\"')}"');
     }
     sb.write(' --compressed "${table.url}"');
