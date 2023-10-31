@@ -206,11 +206,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
                   leftPadding: 8.cw,
                 );
               case Constant.jsonText:
-                return JsonTextWidget(
-                  text: widget.table.params,
-                  fontSize: 12.csp,
-                  leftPadding: 4.cw,
-                );
+                return JsonTextWidget(text: widget.table.params);
               case Constant.text:
                 return TextWidget(text: widget.table.params);
               case Constant.hex:
@@ -238,11 +234,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
                   }..addAll(widget.table.responseHeaders ?? {}),
                 );
               case Constant.jsonText:
-                return JsonTextWidget(
-                  text: widget.table.response,
-                  fontSize: 12.csp,
-                  leftPadding: 4.cw,
-                );
+                return JsonTextWidget(text: widget.table.response);
               case Constant.text:
                 return TextWidget(text: widget.table.response);
               case Constant.hex:

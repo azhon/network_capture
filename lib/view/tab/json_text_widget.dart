@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/theme_map.dart';
+import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/view/widget/flutter_highlight_selectable.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
@@ -11,13 +12,9 @@ import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 /// @author azhon
 class JsonTextWidget extends StatelessWidget {
   final String? text;
-  final double leftPadding;
-  final double fontSize;
 
   const JsonTextWidget({
     required this.text,
-    this.leftPadding = 0,
-    this.fontSize = 12,
     super.key,
   });
 
@@ -29,10 +26,10 @@ class JsonTextWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: HighlightViewSelectable(
             const JsonEncoder.withIndent('  ').convert(jsonDecode(text ?? '')),
-            padding: EdgeInsets.only(left: leftPadding),
+            padding: EdgeInsets.only(left: 4.cw),
             language: 'json',
             theme: _codeTheme(),
-            textStyle: TextStyle(fontSize: fontSize),
+            textStyle: TextStyle(fontSize: 12.csp),
             wantKeepAlive: true,
           ),
         ),
