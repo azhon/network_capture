@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
+import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
@@ -65,7 +66,21 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               ),
               GestureDetector(
                 onVerticalDragUpdate: _dragUpdate,
-                child: _tabBar(rspTab, _rspController),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Positioned(
+                      top: -8.cw,
+                      child: Image.asset(
+                        NetworkCaptureAssets.icDrag,
+                        width: 52.cw,
+                        height: 8.cw,
+                      ),
+                    ),
+                    _tabBar(rspTab, _rspController),
+                  ],
+                ),
               ),
               Expanded(
                 child: _rspTabBarView(),
