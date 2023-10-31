@@ -11,6 +11,7 @@ import 'package:network_capture/http/response/capture_http_response.dart';
 /// @author azhon
 class CaptureHttpRequest extends HttpClientRequestAdapter {
   late NetworkHistoryTable table;
+  final List<int> _data = [];
 
   CaptureHttpRequest(super.origin) {
     table = NetworkHistoryTable(
@@ -30,9 +31,11 @@ class CaptureHttpRequest extends HttpClientRequestAdapter {
 
   @override
   Future addStream(Stream<List<int>> stream) {
+    _data.clear();
     stream = stream.asBroadcastStream();
     stream.listen((List<int> event) {
-      table.params = encoding.decode(event);
+      _data.addAll(event);
+      table.params = encoding.decode(_data);
     });
     return origin.addStream(stream);
   }
