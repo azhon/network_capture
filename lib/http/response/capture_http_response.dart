@@ -21,6 +21,7 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
     table.responseHeaders = table.transformHeaders(headers);
     if (!_canResolve()) {
       ///不受支持的解析类型
+      _saveRequest();
       return origin.transform(streamTransformer);
     }
     streamTransformer = StreamTransformer.fromHandlers(
@@ -53,10 +54,14 @@ class CaptureHttpResponse extends HttpClientResponseAdapter {
 
   ///解析返回的数据
   void _decodeResponse(List<int> data) {
+    table.response = _getEncoding()?.decode(data);
+    _saveRequest();
+  }
+
+  void _saveRequest() {
     table.contentLength = contentLength;
     table.statusCode = statusCode;
     table.reasonPhrase = reasonPhrase;
-    table.response = _getEncoding()?.decode(data);
     table.endTime = DateTime.now().millisecondsSinceEpoch;
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
   }

@@ -42,17 +42,17 @@ class NetworkHistoryTable {
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'method': method,
-      'url': url,
-      'params': params,
+      'method': method ?? '',
+      'url': url ?? '',
+      'params': params ?? '',
       'requestHeaders': jsonEncode(requestHeaders),
-      'startTime': startTime,
+      'startTime': startTime ?? 0,
       'responseHeaders': jsonEncode(responseHeaders),
-      'response': response,
-      'endTime': endTime,
-      'statusCode': statusCode,
-      'reasonPhrase': reasonPhrase,
-      'contentLength': contentLength,
+      'response': response ?? '',
+      'endTime': endTime ?? 0,
+      'statusCode': statusCode ?? 0,
+      'reasonPhrase': reasonPhrase ?? '',
+      'contentLength': contentLength ?? 0,
     };
   }
 
