@@ -66,11 +66,11 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
                       queryString: widget.params,
                       leftPadding: 4.cw,
                     )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          HighlightView(
+                  : Row(
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: HighlightView(
                             const JsonEncoder.withIndent('  ')
                                 .convert(jsonDecode(widget.params ?? '')),
                             padding: EdgeInsets.only(left: 2.cw),
@@ -78,8 +78,8 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
                             theme: _codeTheme(),
                             textStyle: TextStyle(fontSize: 10.cw),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
             ),
           ],
