@@ -99,6 +99,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
+            physics: const ClampingScrollPhysics(),
             child: Text(
               value,
               style: TextStyle(

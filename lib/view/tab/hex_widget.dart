@@ -13,8 +13,13 @@ import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 class HexWidget extends StatefulWidget {
   final String? text;
+  final bool safeBottom;
 
-  const HexWidget({required this.text, super.key});
+  const HexWidget({
+    required this.text,
+    this.safeBottom = false,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _HexWidgetState();
@@ -53,10 +58,16 @@ class _HexWidgetState extends State<HexWidget>
             separatorBuilder: (_, index) {
               return SizedBox(height: 2.cw);
             },
+            padding: EdgeInsets.only(
+              bottom:
+                  widget.safeBottom ? MediaQuery.of(context).padding.bottom : 0,
+            ),
+            physics: const ClampingScrollPhysics(),
             itemBuilder: (_, index) {
               final e = _list![index];
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
                 child: Row(
                   children: [
                     Text(

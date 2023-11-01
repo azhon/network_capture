@@ -86,6 +86,7 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
                 child: ListView.separated(
                   itemCount: list?.length ?? 0,
                   padding: EdgeInsets.only(top: 8.cw, bottom: 16.cw),
+                  physics: const ClampingScrollPhysics(),
                   separatorBuilder: (_, index) {
                     return SizedBox(height: 10.cw);
                   },

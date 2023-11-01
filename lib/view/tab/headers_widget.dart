@@ -8,9 +8,11 @@ import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 /// @author azhon
 class HeadersWidget extends StatelessWidget {
   final Map<String, dynamic>? headers;
+  final bool safeBottom;
 
   const HeadersWidget({
     required this.headers,
+    this.safeBottom = false,
     super.key,
   });
 
@@ -22,7 +24,11 @@ class HeadersWidget extends StatelessWidget {
       child: SelectionArea(
         child: ListView.builder(
           itemCount: keys?.length,
-          padding: EdgeInsets.only(right: 8.cw),
+          padding: EdgeInsets.only(
+            right: 8.cw,
+            bottom: safeBottom ? MediaQuery.of(context).padding.bottom : 0,
+          ),
+          physics: const ClampingScrollPhysics(),
           itemBuilder: (_, index) {
             return _rowWidget(keys![index], values![index]);
           },

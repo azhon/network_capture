@@ -25,6 +25,7 @@ class QueryStringWidget extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constrain) {
           return SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
             child: Table(
               columnWidths: {
                 0: MaxColumnWidth(

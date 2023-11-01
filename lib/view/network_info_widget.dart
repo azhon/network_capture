@@ -232,13 +232,23 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
                     '': 'HTTP/1.1 ${widget.table.statusCode} '
                         '${widget.table.reasonPhrase}',
                   }..addAll(widget.table.responseHeaders ?? {}),
+                  safeBottom: true,
                 );
               case Constant.jsonText:
-                return JsonTextWidget(text: widget.table.response);
+                return JsonTextWidget(
+                  text: widget.table.response,
+                  safeBottom: true,
+                );
               case Constant.text:
-                return TextWidget(text: widget.table.response);
+                return TextWidget(
+                  text: widget.table.response,
+                  safeBottom: true,
+                );
               case Constant.hex:
-                return HexWidget(text: widget.table.response);
+                return HexWidget(
+                  text: widget.table.response,
+                  safeBottom: true,
+                );
             }
           })
           .cast<Widget>()

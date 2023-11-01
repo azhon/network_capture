@@ -12,9 +12,11 @@ import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 /// @author azhon
 class JsonTextWidget extends StatelessWidget {
   final String? text;
+  final bool safeBottom;
 
   const JsonTextWidget({
     required this.text,
+    this.safeBottom = false,
     super.key,
   });
 
@@ -22,15 +24,23 @@ class JsonTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RemoveRippleWidget(
       child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: HighlightViewSelectable(
-            const JsonEncoder.withIndent('  ').convert(jsonDecode(text ?? '')),
-            padding: EdgeInsets.only(left: 4.cw),
-            language: 'json',
-            theme: _codeTheme(),
-            textStyle: TextStyle(fontSize: 12.csp),
-            wantKeepAlive: true,
+          physics: const ClampingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: safeBottom ? MediaQuery.of(context).padding.bottom : 0,
+            ),
+            child: HighlightViewSelectable(
+              const JsonEncoder.withIndent('  ')
+                  .convert(jsonDecode(text ?? '')),
+              padding: EdgeInsets.only(left: 4.cw),
+              language: 'json',
+              theme: _codeTheme(),
+              textStyle: TextStyle(fontSize: 12.csp),
+              wantKeepAlive: true,
+            ),
           ),
         ),
       ),

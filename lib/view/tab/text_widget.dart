@@ -8,8 +8,13 @@ import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 /// @author azhon
 class TextWidget extends StatelessWidget {
   final String? text;
+  final bool safeBottom;
 
-  const TextWidget({required this.text, super.key});
+  const TextWidget({
+    required this.text,
+    this.safeBottom = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,10 @@ class TextWidget extends StatelessWidget {
       padding: EdgeInsets.only(left: 4.cw),
       child: RemoveRippleWidget(
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: safeBottom ? MediaQuery.of(context).padding.bottom : 0,
+          ),
+          physics: const ClampingScrollPhysics(),
           child: SelectableText(
             text ?? '',
             style: TextStyle(
