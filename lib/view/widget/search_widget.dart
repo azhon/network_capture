@@ -146,12 +146,14 @@ class _SearchWidgetState extends State<SearchWidget>
               ? Border.all(color: const Color(0XFFFF9900))
               : Border.all(color: Colors.grey),
         ),
-        child: Text(
-          status.title,
-          style: TextStyle(
-            fontSize: 10.csp,
-            fontWeight: FontWeight.w500,
-            color: status.check ? const Color(0XFFFF9900) : Colors.grey,
+        child: Center(
+          child: Text(
+            status.title,
+            style: TextStyle(
+              fontSize: 10.csp,
+              fontWeight: FontWeight.w500,
+              color: status.check ? const Color(0XFFFF9900) : Colors.grey,
+            ),
           ),
         ),
       ),
