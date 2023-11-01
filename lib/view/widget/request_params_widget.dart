@@ -59,28 +59,32 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
                 ),
               ],
             ),
-            Visibility(
-              visible: expand,
-              child: isGet
-                  ? QueryStringWidget(
-                      queryString: widget.params,
-                      leftPadding: 4.cw,
-                    )
-                  : Row(
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: HighlightView(
-                            const JsonEncoder.withIndent('  ')
-                                .convert(jsonDecode(widget.params ?? '')),
-                            padding: EdgeInsets.only(left: 2.cw),
-                            language: 'json',
-                            theme: _codeTheme(),
-                            textStyle: TextStyle(fontSize: 10.cw),
-                          ),
+            LayoutBuilder(
+              builder: (context, con) {
+                return Visibility(
+                  visible: expand,
+                  child: isGet
+                      ? QueryStringWidget(
+                          queryString: widget.params,
+                          leftPadding: 4.cw,
+                        )
+                      : Row(
+                          children: [
+                            SizedBox(
+                              width: con.maxWidth,
+                              child: HighlightView(
+                                const JsonEncoder.withIndent('  ')
+                                    .convert(jsonDecode(widget.params ?? '')),
+                                padding: EdgeInsets.only(left: 2.cw),
+                                language: 'json',
+                                theme: _codeTheme(),
+                                textStyle: TextStyle(fontSize: 10.cw),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                );
+              },
             ),
           ],
         ),

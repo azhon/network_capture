@@ -23,24 +23,18 @@ class JsonTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RemoveRippleWidget(
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const ClampingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: safeBottom ? MediaQuery.of(context).padding.bottom : 0,
-            ),
-            child: HighlightViewSelectable(
-              const JsonEncoder.withIndent('  ')
-                  .convert(jsonDecode(text ?? '')),
-              padding: EdgeInsets.only(left: 4.cw),
-              language: 'json',
-              theme: _codeTheme(),
-              textStyle: TextStyle(fontSize: 12.csp),
-              wantKeepAlive: true,
-            ),
+      child: Scrollbar(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: safeBottom ? MediaQuery.of(context).padding.bottom : 0,
+          ),
+          child: HighlightViewSelectable(
+            const JsonEncoder.withIndent('  ').convert(jsonDecode(text ?? '')),
+            padding: EdgeInsets.only(left: 4.cw),
+            language: 'json',
+            theme: _codeTheme(),
+            textStyle: TextStyle(fontSize: 12.csp),
+            wantKeepAlive: true,
           ),
         ),
       ),
