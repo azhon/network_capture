@@ -11,6 +11,7 @@ import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/util/constant.dart';
 import 'package:network_capture/util/dialog_util.dart';
+import 'package:network_capture/util/toast_util.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
@@ -319,6 +320,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         break;
     }
     Clipboard.setData(ClipboardData(text: text));
+    ToastUtil.showSnackBar(context, 'Copy successful !');
   }
 
   String _createCurl(NetworkHistoryTable table) {
