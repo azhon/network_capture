@@ -102,7 +102,7 @@ class _HexWidgetState extends State<HexWidget>
                             '0' * (32 - e.hex.length),
                             style: TextStyle(
                               fontSize: 12.csp,
-                              color: Colors.white,
+                              color: Colors.transparent,
                             ),
                           ),
                         ],
