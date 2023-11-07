@@ -10,6 +10,7 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
 import 'package:network_capture/util/constant.dart';
+import 'package:network_capture/util/dialog_util.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
@@ -140,9 +141,13 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      title: Text(
-        widget.table.path,
-        style: TextStyle(color: Colors.white, fontSize: 14.csp),
+      title: GestureDetector(
+        onDoubleTap: () =>
+            DialogUtil.showCopyDialog(context, widget.table.path),
+        child: Text(
+          widget.table.path,
+          style: TextStyle(color: Colors.white, fontSize: 14.csp),
+        ),
       ),
       actions: [
         Padding(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/util/dialog_util.dart';
 import 'package:network_capture/util/hex_util.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
@@ -70,45 +71,57 @@ class _HexWidgetState extends State<HexWidget>
                 physics: const ClampingScrollPhysics(),
                 child: Row(
                   children: [
-                    Text(
-                      e.num,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 12.csp,
-                        color: const Color(0xFF333333),
+                    GestureDetector(
+                      onDoubleTap: () =>
+                          DialogUtil.showCopyDialog(context, e.num),
+                      child: Text(
+                        e.num,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 12.csp,
+                          color: const Color(0xFF333333),
+                        ),
                       ),
                     ),
                     SizedBox(width: 16.cw),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          e.hex,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 12.csp,
-                            color: const Color(0xFF333333),
+                    GestureDetector(
+                      onDoubleTap: () =>
+                          DialogUtil.showCopyDialog(context, e.hex),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            e.hex,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 12.csp,
+                              color: const Color(0xFF333333),
+                            ),
                           ),
-                        ),
-                        Text(
-                          '0' * (32 - e.hex.length),
-                          style: TextStyle(
-                            fontSize: 12.csp,
-                            color: Colors.white,
+                          Text(
+                            '0' * (32 - e.hex.length),
+                            style: TextStyle(
+                              fontSize: 12.csp,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(width: 16.cw),
-                    Text(
-                      e.str
-                          .replaceAll('\n', '')
-                          .replaceAll('\t', '  ')
-                          .replaceAll('�', ' '),
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 12.csp,
-                        color: const Color(0xFF333333),
+                    GestureDetector(
+                      onDoubleTap: () =>
+                          DialogUtil.showCopyDialog(context, e.str),
+                      child: Text(
+                        e.str
+                            .replaceAll('\n', '')
+                            .replaceAll('\t', '  ')
+                            .replaceAll('�', ' '),
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 12.csp,
+                          color: const Color(0xFF333333),
+                        ),
                       ),
                     ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/util/dialog_util.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
 /// createTime: 2023/10/23 on 14:53
@@ -30,27 +31,33 @@ class HeadersWidget extends StatelessWidget {
           ),
           physics: const ClampingScrollPhysics(),
           itemBuilder: (_, index) {
-            return _rowWidget(keys![index], values![index]);
+            return _rowWidget(context, keys![index], values![index]);
           },
         ),
       ),
     );
   }
 
-  Widget _rowWidget(String key, String value) {
+  Widget _rowWidget(BuildContext context, String key, String value) {
     return Row(
       children: [
         Expanded(
           flex: 2,
           child: Align(
             alignment: Alignment.centerRight,
-            child: Padding(
-              padding: EdgeInsets.only(right: 8.cw),
-              child: Text(
-                key,
-                style: TextStyle(
-                  fontSize: 12.csp,
-                  color: const Color(0xFF666666),
+            child: GestureDetector(
+              onDoubleTap: () => DialogUtil.showCopyDialog(context, key),
+              child: Padding(
+                padding: EdgeInsets.only(right: 8.cw),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    key,
+                    style: TextStyle(
+                      fontSize: 12.csp,
+                      color: const Color(0xFF666666),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -58,15 +65,18 @@ class HeadersWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 3,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF333333),
+          child: GestureDetector(
+            onDoubleTap: () => DialogUtil.showCopyDialog(context, value),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF333333),
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
             ),
           ),
         ),

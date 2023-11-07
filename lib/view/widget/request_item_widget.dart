@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:intl/intl.dart';
+import 'package:network_capture/util/dialog_util.dart';
 import 'package:network_capture/util/format_util.dart';
 import 'package:network_capture/view/network_info_widget.dart';
 import 'package:network_capture/view/widget/request_params_widget.dart';
@@ -94,15 +95,19 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const ClampingScrollPhysics(),
-            child: Text(
-              value,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color:
-                    import ? const Color(0xFF333333) : const Color(0xFF666666),
+          child: GestureDetector(
+            onDoubleTap: () => DialogUtil.showCopyDialog(context, value),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const ClampingScrollPhysics(),
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: import
+                      ? const Color(0xFF333333)
+                      : const Color(0xFF666666),
+                ),
               ),
             ),
           ),

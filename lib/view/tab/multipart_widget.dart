@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/util/dialog_util.dart';
 
 /// createTime: 2023/10/23 on 14:53
 /// desc:
@@ -48,7 +49,7 @@ class MultipartWidget extends StatelessWidget {
                   ] +
                   list
                       .map(
-                        (e) => _tableRow(e, ++line),
+                        (e) => _tableRow(context, e, ++line),
                       )
                       .toList(),
             ),
@@ -112,64 +113,77 @@ class MultipartWidget extends StatelessWidget {
     );
   }
 
-  TableRow _tableRow(_MultipartBean bean, int line) {
+  TableRow _tableRow(BuildContext context, _MultipartBean bean, int line) {
     return TableRow(
       decoration: BoxDecoration(
         color: line.isEven ? const Color(0xFFF5F5F5) : Colors.white60,
       ),
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              bean.part ?? '',
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () => DialogUtil.showCopyDialog(context, bean.part),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                bean.part ?? '',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              bean.contentType ?? '',
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () =>
+              DialogUtil.showCopyDialog(context, bean.contentType),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                bean.contentType ?? '',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              bean.fileName ?? '',
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () => DialogUtil.showCopyDialog(context, bean.fileName),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                bean.fileName ?? '',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              bean.value ?? '',
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () => DialogUtil.showCopyDialog(context, bean.value),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                bean.value ?? '',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),

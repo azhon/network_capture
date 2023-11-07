@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
+import 'package:network_capture/util/dialog_util.dart';
 
 /// createTime: 2023/10/23 on 14:53
 /// desc:
@@ -42,7 +43,7 @@ class QueryStringWidget extends StatelessWidget {
                   ] +
                   params.keys
                       .map(
-                        (e) => _tableRow(e, params[e], ++line),
+                        (e) => _tableRow(context, e, params[e], ++line),
                       )
                       .toList(),
             ),
@@ -84,36 +85,42 @@ class QueryStringWidget extends StatelessWidget {
     );
   }
 
-  TableRow _tableRow(String key, String value, int line) {
+  TableRow _tableRow(BuildContext context, String key, String value, int line) {
     return TableRow(
       decoration: BoxDecoration(
         color: line.isEven ? const Color(0xFFF5F5F5) : Colors.white60,
       ),
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              key,
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () => DialogUtil.showCopyDialog(context, key),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                key,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: leftPadding),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              value,
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.csp,
-                color: const Color(0xFF666666),
+        GestureDetector(
+          onDoubleTap: () => DialogUtil.showCopyDialog(context, value),
+          child: Padding(
+            padding: EdgeInsets.only(left: leftPadding),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                value,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 12.csp,
+                  color: const Color(0xFF666666),
+                ),
               ),
             ),
           ),
