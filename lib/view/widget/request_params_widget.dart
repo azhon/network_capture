@@ -3,21 +3,22 @@
 ///
 /// @author azhon
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_highlight/theme_map.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/util/constant.dart';
+import 'package:network_capture/view/tab/multipart_widget.dart';
 import 'package:network_capture/view/tab/query_string_widget.dart';
 
 class RequestParamsWidget extends StatefulWidget {
-  final String? method;
-  final String? params;
+  final NetworkHistoryTable table;
 
   const RequestParamsWidget({
-    this.method,
-    this.params,
+    required this.table,
     super.key,
   });
 
@@ -63,26 +64,7 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
               builder: (context, con) {
                 return Visibility(
                   visible: expand,
-                  child: isGet
-                      ? QueryStringWidget(
-                          queryString: widget.params,
-                          leftPadding: 4.cw,
-                        )
-                      : Row(
-                          children: [
-                            SizedBox(
-                              width: con.maxWidth,
-                              child: HighlightView(
-                                const JsonEncoder.withIndent('  ')
-                                    .convert(jsonDecode(widget.params ?? '')),
-                                padding: EdgeInsets.only(left: 2.cw),
-                                language: 'json',
-                                theme: _codeTheme(),
-                                textStyle: TextStyle(fontSize: 10.cw),
-                              ),
-                            ),
-                          ],
-                        ),
+                  child: _buildParamsWidget(con.maxWidth),
                 );
               },
             ),
@@ -92,7 +74,40 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
     );
   }
 
-  bool get isGet => widget.method == Constant.get;
+  Widget _buildParamsWidget(double maxWidth) {
+    if (widget.table.method == Constant.get) {
+      return QueryStringWidget(
+        queryString: widget.table.params,
+        leftPadding: 4.cw,
+      );
+    }
+    final String contentType =
+        widget.table.requestHeaders?[HttpHeaders.contentTypeHeader] ?? '';
+    if (contentType.contains(Constant.jsonH)) {
+      return Row(
+        children: [
+          SizedBox(
+            width: maxWidth,
+            child: HighlightView(
+              const JsonEncoder.withIndent('  ')
+                  .convert(jsonDecode(widget.table.params ?? '')),
+              padding: EdgeInsets.only(left: 2.cw),
+              language: 'json',
+              theme: _codeTheme(),
+              textStyle: TextStyle(fontSize: 10.cw),
+            ),
+          ),
+        ],
+      );
+    }
+    if (contentType.contains(Constant.multipartH)) {
+      return MultipartWidget(
+        multipart: widget.table.params,
+        leftPadding: 4.cw,
+      );
+    }
+    return const SizedBox.shrink();
+  }
 
   ///代码主题
   Map<String, TextStyle> _codeTheme() {

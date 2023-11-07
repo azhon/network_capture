@@ -5,7 +5,9 @@
 class Constant {
   static const get = 'GET';
   static const post = 'POST';
-  static const json = 'json';
+
+  static const jsonH = 'json';
+  static const multipartH = 'multipart';
 
   ///
   static const headers = 'Headers';
@@ -13,6 +15,7 @@ class Constant {
   static const jsonText = 'JSON Text';
   static const text = 'Text';
   static const hex = 'Hex';
+  static const multipart = 'Multipart';
 
   ///
   static const copyUrl = 'Copy URL';

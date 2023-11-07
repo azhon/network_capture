@@ -13,6 +13,7 @@ import 'package:network_capture/util/constant.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
+import 'package:network_capture/view/tab/multipart_widget.dart';
 import 'package:network_capture/view/tab/query_string_widget.dart';
 import 'package:network_capture/view/tab/text_widget.dart';
 import 'package:network_capture/view/widget/rectangle_indicator.dart';
@@ -48,11 +49,17 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     reqTab.add(Constant.headers);
     if (widget.table.method == Constant.get) {
       reqTab.add(Constant.queryString);
-    } else {
-      reqTab.add(Constant.jsonText);
-      reqTab.add(Constant.text);
-      reqTab.add(Constant.hex);
     }
+    final String contentType =
+        widget.table.requestHeaders?[HttpHeaders.contentTypeHeader] ?? '';
+    if (contentType.contains(Constant.jsonH)) {
+      reqTab.add(Constant.jsonText);
+    }
+    if (contentType.contains(Constant.multipartH)) {
+      reqTab.add(Constant.multipart);
+    }
+    reqTab.add(Constant.text);
+    reqTab.add(Constant.hex);
     return TabController(length: reqTab.length, vsync: this);
   }
 
@@ -61,7 +68,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
 
     final String contentType =
         widget.table.responseHeaders?[HttpHeaders.contentTypeHeader] ?? '';
-    if (contentType.contains(Constant.json)) {
+    if (contentType.contains(Constant.jsonH)) {
       rspTab.add(Constant.jsonText);
     }
     rspTab.add(Constant.text);
@@ -203,6 +210,11 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               case Constant.queryString:
                 return QueryStringWidget(
                   queryString: widget.table.params,
+                  leftPadding: 8.cw,
+                );
+              case Constant.multipart:
+                return MultipartWidget(
+                  multipart: widget.table.params,
                   leftPadding: 8.cw,
                 );
               case Constant.jsonText:

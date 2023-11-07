@@ -70,10 +70,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
                 ],
               ),
               SizedBox(height: 2.cw),
-              RequestParamsWidget(
-                method: widget.table.method,
-                params: widget.table.params,
-              ),
+              RequestParamsWidget(table: widget.table),
             ],
           ),
         ),
