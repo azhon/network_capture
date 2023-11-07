@@ -92,21 +92,29 @@ class QueryStringWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: leftPadding),
-          child: Text(
-            key,
-            style: TextStyle(
-              fontSize: 12.csp,
-              color: const Color(0xFF666666),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              key,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 12.csp,
+                color: const Color(0xFF666666),
+              ),
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(left: leftPadding),
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 12.csp,
-              color: const Color(0xFF666666),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 12.csp,
+                color: const Color(0xFF666666),
+              ),
             ),
           ),
         ),
