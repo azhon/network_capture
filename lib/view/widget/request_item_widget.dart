@@ -138,6 +138,9 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
   ///解析时间
   String _getDate() {
     final String date = widget.table.responseHeaders?['date'] ?? '';
+    if (date.isEmpty) {
+      return '';
+    }
     final datetime = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'").parse(date);
     final time = datetime.add(datetime.timeZoneOffset).toString();
     return time.substring(0, time.lastIndexOf('.'));
