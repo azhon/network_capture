@@ -1,6 +1,6 @@
 name: network_capture
 description: Flutter developer、test network debugging tools, Easily view HTTPS requests
-version: 1.0.4
+version: 1.0.5
 homepage: https://github.com/azhon/network_capture
 
 environment:

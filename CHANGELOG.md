@@ -1,3 +1,10 @@
+## 1.0.5
+* fix ui bug
+
+## 1.0.4
+* opt ui
+* add multipart
+
 ## 1.0.3
 * opt run ios
 * fix bugs
