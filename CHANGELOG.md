@@ -1,3 +1,6 @@
+## 1.0.6
+* fix ui bug
+
 ## 1.0.5
 * fix ui bug
 
