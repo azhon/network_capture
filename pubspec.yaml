@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.3.0
-  intl: ^0.18.1
+  sqflite: ^2.3.1
+  intl: ^0.19.0
   flutter_highlight: ^0.7.0
 
 dev_dependencies:

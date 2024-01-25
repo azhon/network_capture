@@ -141,8 +141,13 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
     if (date.isEmpty) {
       return '';
     }
-    final datetime = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'").parse(date);
-    final time = datetime.add(datetime.timeZoneOffset).toString();
-    return time.substring(0, time.lastIndexOf('.'));
+    try {
+      final datetime =
+          DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'").parse(date);
+      final time = datetime.add(datetime.timeZoneOffset).toString();
+      return time.substring(0, time.lastIndexOf('.'));
+    } catch (e) {
+      return '';
+    }
   }
 }
