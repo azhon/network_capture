@@ -12,7 +12,9 @@ import 'package:network_capture/view/network_list_widget.dart';
 ///
 /// @author azhon
 class NetWorkCaptureButton extends StatefulWidget {
-  const NetWorkCaptureButton({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const NetWorkCaptureButton(this.navigatorKey, {super.key});
 
   @override
   State createState() => _NetWorkCaptureButtonState();
@@ -34,6 +36,14 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
     HttpOverrides.global = CaptureHttpOverrides();
     AppDb.instance.init();
     _createAnimation();
+  }
+
+  ///查找[Navigator]
+  NavigatorState _findNavigator() {
+    if (widget.navigatorKey.currentContext == null) {
+      throw Exception('navigatorKey must not be null!');
+    }
+    return Navigator.of(widget.navigatorKey.currentContext!);
   }
 
   void _createAnimation() {
@@ -114,7 +124,7 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
             onPressed: () async {
               // ignore: unawaited_futures
               _animationController.forward();
-              await NetworkListWidget.showDialog();
+              await NetworkListWidget.showDialog(_findNavigator());
               await _animationController.reverse();
             },
           ),

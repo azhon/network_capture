@@ -320,7 +320,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         break;
     }
     Clipboard.setData(ClipboardData(text: text));
-    ToastUtil.showSnackBar(context, 'Copy successful !');
+    ToastUtil.showSnackBar(context, 'Copied!');
   }
 
   String _createCurl(NetworkHistoryTable table) {

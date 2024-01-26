@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
-import 'package:network_capture/network_capture.dart';
 import 'package:network_capture/util/toast_util.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 
@@ -45,7 +44,7 @@ class DialogUtil {
           actions: [
             TextButton(
               onPressed: () {
-                ncNavigator.pop();
+                Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
@@ -58,8 +57,8 @@ class DialogUtil {
             TextButton(
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: message ?? ''));
-                ToastUtil.showSnackBar(context, 'Copy successful !');
-                ncNavigator.pop();
+                ToastUtil.showSnackBar(context, 'Copied!');
+                Navigator.pop(context);
               },
               child: Text(
                 'Copy',

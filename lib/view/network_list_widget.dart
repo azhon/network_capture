@@ -18,8 +18,8 @@ class NetworkListWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NetworkListWidgetState();
 
-  static Future<T?> showDialog<T>() {
-    return ncNavigator.push<T?>(
+  static Future<T?> showDialog<T>(NavigatorState navigator) {
+    return navigator.push<T?>(
       ModalBottomSheetRoute(
         isScrollControlled: true,
         backgroundColor: const Color(0xFFF6F7F9),

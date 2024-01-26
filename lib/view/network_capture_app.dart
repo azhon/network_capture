@@ -6,7 +6,6 @@ import 'package:network_capture/view/network_capture_button.dart';
 /// desc:
 ///
 /// @author azhon
-late NavigatorState ncNavigator;
 
 class NetworkCaptureApp extends StatefulWidget {
   final bool enable;
@@ -34,18 +33,10 @@ class _NetworkCaptureAppState extends State<NetworkCaptureApp> {
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _findNavigator();
       _overlayKey.currentState?.insert(
-        OverlayEntry(builder: (_) => const NetWorkCaptureButton()),
+        OverlayEntry(builder: (_) => NetWorkCaptureButton(widget.navigatorKey)),
       );
     });
-  }
-
-  void _findNavigator() {
-    if (widget.navigatorKey.currentContext == null) {
-      throw Exception('navigatorKey must not be null!');
-    }
-    ncNavigator = Navigator.of(widget.navigatorKey.currentContext!);
   }
 
   @override
