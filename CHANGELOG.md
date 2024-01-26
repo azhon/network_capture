@@ -1,3 +1,6 @@
+## 1.0.7
+* fix Navigator bug
+
 ## 1.0.6
 * fix ui bug
 
