@@ -6,18 +6,21 @@ import 'package:network_capture/view/network_capture_button.dart';
 /// desc:
 ///
 /// @author azhon
+bool ncEnable = false;
 
 class NetworkCaptureApp extends StatefulWidget {
   final bool enable;
   final Widget child;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  const NetworkCaptureApp({
+  NetworkCaptureApp({
     required this.child,
     required this.navigatorKey,
-    this.enable = true,
+    this.enable = false,
     super.key,
-  });
+  }) {
+    ncEnable = enable;
+  }
 
   @override
   State<StatefulWidget> createState() => _NetworkCaptureAppState();

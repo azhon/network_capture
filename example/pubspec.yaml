@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^5.3.2
+  dio: ^5.4.2
   network_capture:
     path: ../../network_capture
 

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
 
 /// createTime: 2023/10/20 on 21:29
 /// desc:
@@ -31,7 +31,7 @@ class NetworkHistoryTable {
     this.response,
   });
 
-  Map<String, String> transformHeaders(HttpHeaders? headers) {
+  Map<String, String> transformHeaders(Headers? headers) {
     final Map<String, String> map = {};
     headers?.forEach((name, values) {
       map[name] = values.first;

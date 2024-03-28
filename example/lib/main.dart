@@ -7,6 +7,7 @@ final navGK = GlobalKey<NavigatorState>();
 void main() {
   runApp(NetworkCaptureApp(
     navigatorKey: navGK,
+    enable: true,
     child: const MyApp(),
   ));
 }
@@ -39,6 +40,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String result = '';
+  late Dio dio;
+
+  @override
+  void initState() {
+    super.initState();
+    dio = Dio()..interceptors.add(CaptureDioInterceptor());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _get() {
-    Dio().get('https://www.wanandroid.com/banner/json',
+    dio.get('https://www.wanandroid.com/banner/json',
         queryParameters: {'id': '323', 'name': 'azhon'}).then((value) {
       setState(() {
         result = value.toString();
@@ -104,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _post() {
-    Dio().post('https://www.wanandroid.com/user/login',
+    dio.post('https://www.wanandroid.com/user/login',
         data: {'username': 'a_zhon', 'password': '12345'}).then((value) {
       setState(() {
         result = value.toString();
