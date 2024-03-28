@@ -13,12 +13,12 @@ dependencies:
   sqflite: ^2.3.1
   intl: ^0.19.0
   flutter_highlight: ^0.7.0
+  dio: ^5.4.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  dio: ^5.4.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
