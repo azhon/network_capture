@@ -48,20 +48,23 @@ class _NetworkCaptureAppState extends State<NetworkCaptureApp> {
       return widget.child;
     }
     return Material(
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Localizations(
-          delegates: const [
-            DefaultMaterialLocalizations.delegate,
-            DefaultCupertinoLocalizations.delegate,
-            DefaultWidgetsLocalizations.delegate,
-          ],
-          locale: const Locale('en', 'US'),
-          child: Overlay(
-            key: _overlayKey,
-            initialEntries: [
-              OverlayEntry(builder: (_) => widget.child),
+      child: Theme(
+        data: ThemeData(useMaterial3: false),
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Localizations(
+            delegates: const [
+              DefaultMaterialLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
             ],
+            locale: const Locale('en', 'US'),
+            child: Overlay(
+              key: _overlayKey,
+              initialEntries: [
+                OverlayEntry(builder: (_) => widget.child),
+              ],
+            ),
           ),
         ),
       ),

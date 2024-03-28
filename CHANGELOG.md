@@ -1,3 +1,7 @@
+## 1.1.0
+* set useMaterial3 = false
+* Adapt to the latest version(5.4.2) of Dio
+
 ## 1.0.7
 * fix Navigator bug
 

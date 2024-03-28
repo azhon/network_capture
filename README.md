@@ -24,4 +24,9 @@ void main() {
   ));
 }
 ```
+- Add `CaptureDioInterceptor` to Dio interceptors
+
+```
+dio.interceptors.add(CaptureDioInterceptor());
+```
 ### Important! It is prohibited to use it in a release environment. We will not be responsible for any problems that arise.
