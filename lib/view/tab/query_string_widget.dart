@@ -20,7 +20,10 @@ class QueryStringWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map params = jsonDecode(queryString ?? '');
+    Map params = {};
+    if (queryString != null && queryString!.isNotEmpty) {
+      params = jsonDecode(queryString!);
+    }
     int line = 0;
     return SelectionArea(
       child: LayoutBuilder(

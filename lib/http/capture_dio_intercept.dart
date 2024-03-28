@@ -45,12 +45,14 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
     DioException? err,
   ) {
     final startTime = _recordMap.remove(request.hashCode);
-    String params;
+    String? params;
 
     ///参数处理
     final uriParams = request.uri.queryParameters;
     if (uriParams.isEmpty) {
-      params = jsonEncode(request.data);
+      if (request.data != null) {
+        params = jsonEncode(request.data);
+      }
     } else {
       params = jsonEncode(uriParams);
     }
