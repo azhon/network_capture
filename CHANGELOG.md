@@ -1,3 +1,9 @@
+## 1.1.2
+* opt http request error display
+
+## 1.1.1
+* fix some bugs
+
 ## 1.1.0
 * set useMaterial3 = false
 * Adapt to the latest version(5.4.2) of Dio
