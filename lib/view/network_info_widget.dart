@@ -1,7 +1,3 @@
-/// createTime: 2023/10/23 on 14:04
-/// desc:
-///
-/// @author azhon
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,6 +16,10 @@ import 'package:network_capture/view/tab/query_string_widget.dart';
 import 'package:network_capture/view/tab/text_widget.dart';
 import 'package:network_capture/view/widget/rectangle_indicator.dart';
 
+/// createTime: 2023/10/23 on 14:04
+/// desc:
+///
+/// @author azhon
 class NetworkInfoWidget extends StatefulWidget {
   final NetworkHistoryTable table;
 
@@ -133,8 +133,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   }
 
   AppBar _appBar() {
+    final isError = widget.table.statusCode != HttpStatus.ok;
     return AppBar(
-      backgroundColor: const Color(0XFFFF9900),
+      backgroundColor: isError ? Colors.red : const Color(0XFFFF9900),
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,

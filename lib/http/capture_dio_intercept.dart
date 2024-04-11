@@ -23,7 +23,7 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (ncEnable) {
-      _saveHttp(err.requestOptions, null, err);
+      _saveHttp(err.requestOptions, err.response, err);
     }
     super.onError(err, handler);
   }

@@ -1,7 +1,5 @@
-/// createTime: 2023/10/20 on 22:07
-/// desc:
-///
-/// @author azhon
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
@@ -11,6 +9,10 @@ import 'package:network_capture/util/format_util.dart';
 import 'package:network_capture/view/network_info_widget.dart';
 import 'package:network_capture/view/widget/request_params_widget.dart';
 
+/// createTime: 2023/10/20 on 22:07
+/// desc:
+///
+/// @author azhon
 class RequestItemWidget extends StatefulWidget {
   final NetworkHistoryTable table;
 
@@ -46,8 +48,8 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
               _rowWidget('Time', _getDate()),
               Row(
                 children: [
-                  _label('${widget.table.method}'),
-                  _label('${widget.table.statusCode}'),
+                  _label('${widget.table.method}', false),
+                  _label('${widget.table.statusCode}', true),
                   Padding(
                     padding: EdgeInsets.only(right: 4.cw),
                     child: Text(
@@ -116,12 +118,16 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
     );
   }
 
-  Widget _label(String text) {
+  Widget _label(String text, bool statusCode) {
+    bool isError = false;
+    if (statusCode) {
+      isError = text != HttpStatus.ok.toString();
+    }
     return Container(
       margin: EdgeInsets.only(right: 4.cw),
       padding: EdgeInsets.symmetric(horizontal: 2.cw),
       decoration: BoxDecoration(
-        color: const Color(0XFFFF9900),
+        color: isError ? Colors.red : const Color(0XFFFF9900),
         borderRadius: BorderRadius.circular(4.cw),
       ),
       child: Text(
