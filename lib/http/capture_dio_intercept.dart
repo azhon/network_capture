@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/network_capture.dart';
+import 'package:network_capture/util/constant.dart';
 
 /// createTime: 2024/3/28 on 10:21
 /// desc:
@@ -67,15 +69,19 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
     if (response == null) {
       table.reasonPhrase = err?.message;
     } else {
-      if (response.data is Map) {
-        table.response = jsonEncode(response.data);
-      } else {
-        table.response = response.data.toString();
-      }
       table.responseHeaders = table.transformHeaders(response.headers);
       table.contentLength = _getContentLength(table.response);
       table.statusCode = response.statusCode;
       table.reasonPhrase = response.statusMessage;
+
+      ///判断返回的数据类型
+      final String contentType =
+          table.responseHeaders?[HttpHeaders.contentTypeHeader] ?? '';
+      if (contentType.contains(Constant.jsonH)) {
+        table.response = jsonEncode(response.data);
+      } else {
+        table.response = response.data.toString();
+      }
     }
 
     ///保存
