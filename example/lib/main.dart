@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     child: const Text(
-                      'Get网络请求',
+                      'Get Request',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     child: const Text(
-                      'Post网络请求',
+                      'Post Request',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

@@ -1,3 +1,6 @@
+## 1.1.3
+* fix response data view bugs
+
 ## 1.1.2
 * opt http request error display
 

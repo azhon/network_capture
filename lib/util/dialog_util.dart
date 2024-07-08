@@ -33,7 +33,7 @@ class DialogUtil {
           content: RemoveRippleWidget(
             child: SingleChildScrollView(
               child: Text(
-                message ?? '',
+                message,
                 style: TextStyle(
                   color: const Color(0xFF333333),
                   fontSize: 14.csp,
@@ -56,7 +56,7 @@ class DialogUtil {
             ),
             TextButton(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: message ?? ''));
+                Clipboard.setData(ClipboardData(text: message));
                 ToastUtil.showSnackBar(context, 'Copied!');
                 Navigator.pop(context);
               },

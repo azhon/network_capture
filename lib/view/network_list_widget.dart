@@ -7,7 +7,6 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/generated/assets/network_capture_assets.dart';
-import 'package:network_capture/network_capture.dart';
 import 'package:network_capture/view/widget/remove_ripple_widget.dart';
 import 'package:network_capture/view/widget/request_item_widget.dart';
 import 'package:network_capture/view/widget/search_widget.dart';
@@ -118,8 +117,8 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
           children: [
             SizedBox(width: 36.cw),
             Text(
-              '网络请求',
-              style: TextStyle(fontSize: 18.cw, fontWeight: FontWeight.w500),
+              'Network Capture',
+              style: TextStyle(fontSize: 16.cw, fontWeight: FontWeight.w500),
             ),
             GestureDetector(
               child: Padding(
