@@ -330,10 +330,11 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     table.requestHeaders?.forEach((key, value) {
       sb.write(' -H "$key: $value"');
     });
-    if (table.method == Constant.post) {
-      sb.write(' --data-binary "${table.params?.replaceAll('"', r'\"')}"');
+    sb.write(' -X ${table.method}');
+    if (table.method == Constant.post || table.method == Constant.put) {
+      sb.write(' -d "${table.params?.replaceAll('"', r'\"')}"');
     }
-    sb.write(' --compressed "${table.url}"');
+    sb.write(' "${table.url}"');
     return sb.toString();
   }
 }

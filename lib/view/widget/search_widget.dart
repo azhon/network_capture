@@ -25,7 +25,7 @@ class _SearchWidgetState extends State<SearchWidget>
   final _condition = [
     CheckStatus('GET', false, CheckStatus.method),
     CheckStatus('POST', false, CheckStatus.method),
-    CheckStatus('DEL', false, CheckStatus.method),
+    CheckStatus('DELETE', false, CheckStatus.method),
     CheckStatus('PUT', false, CheckStatus.method),
     CheckStatus('=200', false, CheckStatus.code),
     CheckStatus('!=200', false, CheckStatus.code),
