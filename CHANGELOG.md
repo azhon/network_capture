@@ -1,3 +1,6 @@
+## 1.1.4
+* fix list search and copy Curl bugs
+
 ## 1.1.3
 * fix response data view bugs
 
