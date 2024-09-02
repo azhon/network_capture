@@ -1,3 +1,6 @@
+## 1.1.5
+* fix post formData bugs
+
 ## 1.1.4
 * fix list search and copy Curl bugs
 
