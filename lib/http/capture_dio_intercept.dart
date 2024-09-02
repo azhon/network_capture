@@ -90,6 +90,9 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
       for (final map in formData.fields) {
         params[map.key] = map.value;
       }
+      for (final file in formData.files) {
+        params[file.key] = file.value.filename;
+      }
       return jsonEncode(params);
     }
     if (request.data != null) {

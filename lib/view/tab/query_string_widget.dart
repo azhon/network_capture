@@ -88,7 +88,12 @@ class QueryStringWidget extends StatelessWidget {
     );
   }
 
-  TableRow _tableRow(BuildContext context, String key, String value, int line) {
+  TableRow _tableRow(
+    BuildContext context,
+    String key,
+    String? value,
+    int line,
+  ) {
     return TableRow(
       decoration: BoxDecoration(
         color: line.isEven ? const Color(0xFFF5F5F5) : Colors.white60,
@@ -118,7 +123,7 @@ class QueryStringWidget extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                value,
+                value ?? '',
                 maxLines: 1,
                 style: TextStyle(
                   fontSize: 12.csp,
