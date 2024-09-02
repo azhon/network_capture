@@ -11,7 +11,6 @@ import 'package:network_capture/util/toast_util.dart';
 import 'package:network_capture/view/tab/headers_widget.dart';
 import 'package:network_capture/view/tab/hex_widget.dart';
 import 'package:network_capture/view/tab/json_text_widget.dart';
-import 'package:network_capture/view/tab/multipart_widget.dart';
 import 'package:network_capture/view/tab/query_string_widget.dart';
 import 'package:network_capture/view/tab/text_widget.dart';
 import 'package:network_capture/view/widget/rectangle_indicator.dart';
@@ -220,8 +219,8 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
                   leftPadding: 8.cw,
                 );
               case Constant.multipart:
-                return MultipartWidget(
-                  multipart: widget.table.params,
+                return QueryStringWidget(
+                  queryString: widget.table.params,
                   leftPadding: 8.cw,
                 );
               case Constant.jsonText:

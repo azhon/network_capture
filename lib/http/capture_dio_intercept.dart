@@ -47,21 +47,11 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
     DioException? err,
   ) {
     final startTime = _recordMap.remove(request.hashCode);
-    String? params;
 
-    ///参数处理
-    final uriParams = request.uri.queryParameters;
-    if (uriParams.isEmpty) {
-      if (request.data != null) {
-        params = jsonEncode(request.data);
-      }
-    } else {
-      params = jsonEncode(uriParams);
-    }
     final table = NetworkHistoryTable(
       method: request.method,
       url: request.uri.toString(),
-      params: params,
+      params: _getParams(request),
       startTime: startTime?.millisecondsSinceEpoch,
       requestHeaders: request.headers,
     );
@@ -86,6 +76,26 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
 
     ///保存
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
+  }
+
+  ///参数处理
+  String? _getParams(RequestOptions request) {
+    final uriParams = request.uri.queryParameters;
+    if (request.method == Constant.get) {
+      return uriParams.isNotEmpty ? jsonEncode(uriParams) : null;
+    }
+    if (request.data is FormData) {
+      final params = <String, dynamic>{};
+      final formData = request.data as FormData;
+      for (final map in formData.fields) {
+        params[map.key] = map.value;
+      }
+      return jsonEncode(params);
+    }
+    if (request.data != null) {
+      return jsonEncode(request.data);
+    }
+    return null;
   }
 
   int _getContentLength(String? data) {

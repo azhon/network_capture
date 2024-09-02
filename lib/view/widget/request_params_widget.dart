@@ -11,7 +11,6 @@ import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:network_capture/util/constant.dart';
-import 'package:network_capture/view/tab/multipart_widget.dart';
 import 'package:network_capture/view/tab/query_string_widget.dart';
 
 class RequestParamsWidget extends StatefulWidget {
@@ -101,8 +100,8 @@ class _RequestParamsWidgetState extends State<RequestParamsWidget> {
       );
     }
     if (contentType.contains(Constant.multipartH)) {
-      return MultipartWidget(
-        multipart: widget.table.params,
+      return QueryStringWidget(
+        queryString: widget.table.params,
         leftPadding: 4.cw,
       );
     }
