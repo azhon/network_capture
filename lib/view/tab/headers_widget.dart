@@ -31,7 +31,7 @@ class HeadersWidget extends StatelessWidget {
           ),
           physics: const ClampingScrollPhysics(),
           itemBuilder: (_, index) {
-            return _rowWidget(context, keys![index], values![index]);
+            return _rowWidget(context, keys![index].toString(), values![index].toString());
           },
         ),
       ),
