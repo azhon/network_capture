@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -25,7 +26,11 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (ncEnable) {
-      _saveHttp(err.requestOptions, err.response, err);
+      try {
+        _saveHttp(err.requestOptions, err.response, err);
+      } catch (e) {
+        log('CaptureDioInterceptor onError $e');
+      }
     }
     super.onError(err, handler);
   }
@@ -36,7 +41,11 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
     ResponseInterceptorHandler handler,
   ) {
     if (ncEnable) {
-      _saveHttp(response.requestOptions, response, null);
+      try {
+        _saveHttp(response.requestOptions, response, null);
+      } catch (e) {
+        log('CaptureDioInterceptor onResponse $e');
+      }
     }
     super.onResponse(response, handler);
   }
