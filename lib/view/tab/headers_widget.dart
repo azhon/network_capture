@@ -38,7 +38,7 @@ class HeadersWidget extends StatelessWidget {
     );
   }
 
-  Widget _rowWidget(BuildContext context, String key, String value) {
+  Widget _rowWidget(BuildContext context, key, value) {
     return Row(
       children: [
         Expanded(
@@ -52,7 +52,7 @@ class HeadersWidget extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Text(
-                    key,
+                    '$key',
                     style: TextStyle(
                       fontSize: 12.csp,
                       color: const Color(0xFF666666),
@@ -70,7 +70,7 @@ class HeadersWidget extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                value,
+                '$value',
                 style: TextStyle(
                   fontSize: 12.csp,
                   color: const Color(0xFF333333),
