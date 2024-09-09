@@ -1,3 +1,6 @@
+## 1.1.6
+* fix headers bug
+
 ## 1.1.5
 * fix post formData bugs
 
