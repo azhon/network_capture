@@ -39,7 +39,7 @@ class AppDb {
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         final batch = db.batch();
-        NetworkHistoryTable.drop();
+        await db.execute(NetworkHistoryTable.drop());
         await batch.commit();
       },
     );

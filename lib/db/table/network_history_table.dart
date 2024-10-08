@@ -108,6 +108,6 @@ class NetworkHistoryTable {
   }
 
   static String drop() {
-    return 'DROP TABLE $tableName';
+    return 'DROP TABLE IF EXISTS $tableName';
   }
 }
