@@ -1,4 +1,7 @@
 ## 1.1.6
+* fix content length bug
+
+## 1.1.6
 * fix headers bug
 
 ## 1.1.5
