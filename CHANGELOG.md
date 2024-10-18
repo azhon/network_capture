@@ -1,4 +1,4 @@
-## 1.1.6
+## 1.1.7
 * fix content length bug
 
 ## 1.1.6
