@@ -13,8 +13,12 @@ class FormatUtil {
     if (size == null || size <= 0) {
       return '0KB';
     }
-    final int digitGroups = (log(size) / log(size)).round();
-    return '${NumberFormat("#,##0.#").format(size / pow(1024, digitGroups))} '
-        '${units[digitGroups]}';
+    int index = 0;
+    double value = size.toDouble();
+    while (value >= 1024) {
+      value = value / 1024;
+      index++;
+    }
+    return '${NumberFormat("#,##0.#").format(value)}${units[index]}';
   }
 }

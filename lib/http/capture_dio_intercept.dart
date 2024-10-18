@@ -60,7 +60,6 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
       table.reasonPhrase = err?.message;
     } else {
       table.responseHeaders = table.transformHeaders(response.headers);
-      table.contentLength = _getContentLength(table.response);
       table.statusCode = response.statusCode;
       table.reasonPhrase = response.statusMessage;
 
@@ -72,6 +71,7 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
       } else {
         table.response = response.data.toString();
       }
+      table.contentLength = _getContentLength(table.response);
     }
 
     ///保存
