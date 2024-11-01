@@ -1,3 +1,6 @@
+## 1.1.8
+* fix Time bug
+
 ## 1.1.7
 * fix content length bug
 
