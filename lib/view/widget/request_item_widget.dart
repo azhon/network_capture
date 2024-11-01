@@ -143,17 +143,11 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
 
   ///解析时间
   String _getDate() {
-    final String date = widget.table.responseHeaders?['date'] ?? '';
-    if (date.isEmpty) {
+    final date = widget.table.startTime;
+    if (date == null) {
       return '';
     }
-    try {
-      final datetime =
-          DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'").parse(date);
-      final time = datetime.add(datetime.timeZoneOffset).toString();
-      return time.substring(0, time.lastIndexOf('.'));
-    } catch (e) {
-      return '';
-    }
+    return DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(DateTime.fromMillisecondsSinceEpoch(date));
   }
 }
