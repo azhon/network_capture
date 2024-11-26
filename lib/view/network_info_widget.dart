@@ -81,6 +81,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
+      backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           _maxHeight = constraints.maxHeight - _minHeight - 68.cw;
