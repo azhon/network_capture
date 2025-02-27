@@ -1,3 +1,6 @@
+## 1.2.0
+* fix large response error
+
 ## 1.1.9
 * fix scaffold background
 
