@@ -22,4 +22,8 @@ class Constant {
   static const copyUrl = 'Copy URL';
   static const copyCUrl = 'Copy cURL Request';
   static const copyResponse = 'Copy Response';
+
+  ///max response sizes 1.8M
+  static const maxResponseSize = 1024 * 1024 * 1.8;
+  static const maxResponseData = '{"result":"Response too large!"}';
 }

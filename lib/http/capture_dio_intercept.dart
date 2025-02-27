@@ -73,6 +73,7 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
       }
       table.contentLength = _getContentLength(table.response);
     }
+    _isTooLarge(table);
 
     ///保存
     AppDb.instance.insert(NetworkHistoryTable.tableName, table.toMap());
@@ -106,5 +107,11 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
       return 0;
     }
     return utf8.encode(data).length;
+  }
+
+  void _isTooLarge(NetworkHistoryTable table) {
+    if ((table.contentLength ?? 0) >= Constant.maxResponseSize) {
+      table.response = Constant.maxResponseData;
+    }
   }
 }
