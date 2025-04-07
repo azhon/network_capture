@@ -11,12 +11,15 @@ bool ncEnable = false;
 class NetworkCaptureApp extends StatefulWidget {
   final bool enable;
   final Widget child;
+  final Size designSize;
+
   final GlobalKey<NavigatorState> navigatorKey;
 
   NetworkCaptureApp({
     required this.child,
     required this.navigatorKey,
     this.enable = false,
+    this.designSize = const Size(375, 667),
     super.key,
   }) {
     ncEnable = enable;
@@ -37,7 +40,10 @@ class _NetworkCaptureAppState extends State<NetworkCaptureApp> {
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _overlayKey.currentState?.insert(
-        OverlayEntry(builder: (_) => NetWorkCaptureButton(widget.navigatorKey)),
+        OverlayEntry(
+          builder: (_) =>
+              NetWorkCaptureButton(widget.navigatorKey, widget.designSize),
+        ),
       );
     });
   }

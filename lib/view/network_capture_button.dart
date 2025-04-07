@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/app_db.dart';
@@ -9,9 +11,14 @@ import 'package:network_capture/view/network_list_widget.dart';
 ///
 /// @author azhon
 class NetWorkCaptureButton extends StatefulWidget {
+  final Size designSize;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  const NetWorkCaptureButton(this.navigatorKey, {super.key});
+  const NetWorkCaptureButton(
+    this.navigatorKey,
+    this.designSize, {
+    super.key,
+  });
 
   @override
   State createState() => _NetWorkCaptureButtonState();
@@ -54,7 +61,7 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
   void didChangeDependencies() {
     super.didChangeDependencies();
     final data = MediaQuery.of(context);
-    CaptureScreenAdapter.instance.init(data);
+    CaptureScreenAdapter.instance.init(data, widget.designSize);
     final size = CaptureScreenAdapter.instance.screen;
     _offset = Offset(size.width - iconSize.width - 20.cw, size.height - 240.cw);
   }
@@ -118,8 +125,7 @@ class _NetWorkCaptureButtonState extends State<NetWorkCaptureButton>
               ),
             ),
             onPressed: () async {
-              // ignore: unawaited_futures
-              _animationController.forward();
+              unawaited(_animationController.forward());
               await NetworkListWidget.showDialog(_findNavigator());
               await _animationController.reverse();
             },

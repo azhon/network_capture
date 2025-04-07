@@ -17,12 +17,10 @@ class CaptureScreenAdapter {
 
   CaptureScreenAdapter._internal();
 
-  final Size designSize = const Size(375, 667);
-
   double scaleWidth = 0;
   Size screen = Size.zero;
 
-  void init(MediaQueryData data) {
+  void init(MediaQueryData data, Size designSize) {
     screen = data.size;
     scaleWidth = screen.width / designSize.width;
   }
