@@ -1,3 +1,6 @@
+## 1.2.1
+* fix design size
+
 ## 1.2.0
 * fix large response error
 
