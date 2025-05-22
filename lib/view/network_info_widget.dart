@@ -176,7 +176,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         child: TabBar(
           isScrollable: true,
           controller: controller,
-          overlayColor: MaterialStateColor.resolveWith(
+          overlayColor: WidgetStateColor.resolveWith(
             (states) => Colors.transparent,
           ),
           unselectedLabelColor: const Color(0xFF333333),
@@ -279,6 +279,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
     final List<String> menus = [
       Constant.copyUrl,
       Constant.copyCUrl,
+      Constant.copyParams,
       Constant.copyResponse,
     ];
     return PopupMenuButton<String>(
@@ -288,7 +289,7 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
               (e) => PopupMenuItem<String>(
                 height: 30.cw,
                 value: e,
-                labelTextStyle: MaterialStateTextStyle.resolveWith(
+                labelTextStyle: WidgetStateTextStyle.resolveWith(
                   (states) => TextStyle(
                     fontSize: 12.csp,
                     color: const Color(0xFF333333),
@@ -315,6 +316,9 @@ class _NetworkInfoWidgetState extends State<NetworkInfoWidget>
         break;
       case Constant.copyCUrl:
         text = _createCurl(widget.table);
+        break;
+      case Constant.copyParams:
+        text = widget.table.params ?? '';
         break;
       case Constant.copyResponse:
         text = widget.table.response ?? '';

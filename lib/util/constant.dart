@@ -21,6 +21,7 @@ class Constant {
   ///
   static const copyUrl = 'Copy URL';
   static const copyCUrl = 'Copy cURL Request';
+  static const copyParams = 'Copy Params';
   static const copyResponse = 'Copy Response';
 
   ///max response sizes 1.8M
