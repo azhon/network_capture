@@ -1,3 +1,6 @@
+## 1.2.2
+* add copy params
+
 ## 1.2.1
 * fix design size
 
