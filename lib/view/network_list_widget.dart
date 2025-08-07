@@ -3,6 +3,7 @@
 ///
 /// @author azhon
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/app_db.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
@@ -82,17 +83,27 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
           else
             Expanded(
               child: RemoveRippleWidget(
-                child: ListView.separated(
-                  itemCount: list?.length ?? 0,
-                  padding: EdgeInsets.only(top: 8.cw, bottom: 16.cw),
-                  physics: const ClampingScrollPhysics(),
-                  separatorBuilder: (_, index) {
-                    return SizedBox(height: 10.cw);
-                  },
-                  itemBuilder: (_, index) {
-                    final table = NetworkHistoryTable.fromMap(list![index]);
-                    return RequestItemWidget(table: table);
-                  },
+                child: SlidableAutoCloseBehavior(
+                  child: ListView.separated(
+                    itemCount: list?.length ?? 0,
+                    padding: EdgeInsets.only(
+                      top: 8.cw,
+                      bottom: 16.cw,
+                      left: 12.cw,
+                      right: 12.cw,
+                    ),
+                    physics: const ClampingScrollPhysics(),
+                    separatorBuilder: (_, index) {
+                      return SizedBox(height: 10.cw);
+                    },
+                    itemBuilder: (_, index) {
+                      final table = NetworkHistoryTable.fromMap(list![index]);
+                      return RequestItemWidget(
+                        table: table,
+                        onDelete: () => _onDelete(table),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -150,5 +161,17 @@ class _NetworkListWidgetState extends State<NetworkListWidget> {
         color: Colors.grey,
       ),
     );
+  }
+
+  Future<void> _onDelete(NetworkHistoryTable table) async {
+    final lines = await AppDb.instance.delete(
+      NetworkHistoryTable.tableName,
+      where: 'id = ?',
+      whereArgs: [table.id],
+    );
+    if (lines <= 0) {
+      return;
+    }
+    await _refresh(null, null);
   }
 }

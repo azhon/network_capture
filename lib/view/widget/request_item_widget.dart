@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:network_capture/adapter/capture_screen_adapter.dart';
 import 'package:network_capture/db/table/network_history_table.dart';
 import 'package:intl/intl.dart';
@@ -15,14 +16,21 @@ import 'package:network_capture/view/widget/request_params_widget.dart';
 /// @author azhon
 class RequestItemWidget extends StatefulWidget {
   final NetworkHistoryTable table;
+  final VoidCallback? onDelete;
 
-  const RequestItemWidget({required this.table, super.key});
+  const RequestItemWidget({
+    required this.table,
+    this.onDelete,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _RequestItemWidgetState();
 }
 
 class _RequestItemWidgetState extends State<RequestItemWidget> {
+  NetworkHistoryTable get _table => widget.table;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,30 +38,56 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
         FocusManager.instance.primaryFocus?.unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => NetworkInfoWidget(table: widget.table),
+            builder: (context) => NetworkInfoWidget(table: _table),
           ),
         );
       },
-      child: Card(
-        shadowColor: Colors.black,
-        elevation: 2.cw,
-        color: Colors.white,
-        margin: EdgeInsets.symmetric(horizontal: 12.cw),
-        child: Padding(
+      child: Slidable(
+        key: ValueKey(_table.id),
+        endActionPane: ActionPane(
+          extentRatio: 0.3,
+          motion: const DrawerMotion(),
+          children: [
+            SlidableAction(
+              icon: Icons.delete,
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              label: 'Delete',
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(4.cw),
+                bottomRight: Radius.circular(4.cw),
+              ),
+              onPressed: (_) => widget.onDelete?.call(),
+            ),
+          ],
+        ),
+        child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.cw, vertical: 6.cw),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.cw),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
           child: Column(
             children: [
-              _rowWidget('Uri', widget.table.path, import: true),
-              _rowWidget('Host', widget.table.origin),
+              _rowWidget('Uri', _table.path, import: true),
+              _rowWidget('Host', _table.origin),
               _rowWidget('Time', _getDate()),
               Row(
                 children: [
-                  _label('${widget.table.method}', false),
-                  _label('${widget.table.statusCode}', true),
+                  _label('${_table.method}', false),
+                  _label('${_table.statusCode}', true),
                   Padding(
                     padding: EdgeInsets.only(right: 4.cw),
                     child: Text(
-                      'Cost:${widget.table.cost}ms',
+                      'Cost:${_table.cost}ms',
                       style: TextStyle(
                         fontSize: 10.csp,
                         color: const Color(0xFF666666),
@@ -63,7 +97,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
                   Padding(
                     padding: EdgeInsets.only(right: 4.cw),
                     child: Text(
-                      'Size:${FormatUtil.formatSize(widget.table.contentLength)}',
+                      'Size:${FormatUtil.formatSize(_table.contentLength)}',
                       style: TextStyle(
                         fontSize: 10.csp,
                         color: const Color(0xFF666666),
@@ -73,7 +107,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
                 ],
               ),
               SizedBox(height: 2.cw),
-              RequestParamsWidget(table: widget.table),
+              RequestParamsWidget(table: _table),
             ],
           ),
         ),
@@ -143,7 +177,7 @@ class _RequestItemWidgetState extends State<RequestItemWidget> {
 
   ///解析时间
   String _getDate() {
-    final date = widget.table.startTime;
+    final date = _table.startTime;
     if (date == null) {
       return '';
     }
