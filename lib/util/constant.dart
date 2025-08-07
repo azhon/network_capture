@@ -24,7 +24,8 @@ class Constant {
   static const copyParams = 'Copy Params';
   static const copyResponse = 'Copy Response';
 
-  ///max response sizes 1.8M
-  static const maxResponseSize = 1024 * 1024 * 1.8;
+  ///max data sizes 1.8M
+  static const maxDataSize = 1024 * 1024 * 1.8;
+  static const maxParamsData = '{"params":"Params too large!"}';
   static const maxResponseData = '{"result":"Response too large!"}';
 }

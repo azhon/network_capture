@@ -109,8 +109,13 @@ class CaptureDioInterceptor extends InterceptorsWrapper {
     return utf8.encode(data).length;
   }
 
+  ///请求、响应数据量太大则不存储
   void _isTooLarge(NetworkHistoryTable table) {
-    if ((table.contentLength ?? 0) >= Constant.maxResponseSize) {
+    final paramsLength = utf8.encode(table.params ?? '').length;
+    if (paramsLength >= Constant.maxDataSize) {
+      table.params = Constant.maxParamsData;
+    }
+    if ((table.contentLength ?? 0) >= Constant.maxDataSize) {
       table.response = Constant.maxResponseData;
     }
   }
