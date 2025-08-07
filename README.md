@@ -5,9 +5,9 @@
 > [!NOTE]
 > If you want to copy the content, you can try double tap or long pressing.
 
-<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_0.jpg" width="300"> <img src="https://github.com/azhon/network_capture/raw/main/imgs/img_1.jpg" width="300">
-<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_2.jpg" width="300"> <img src="https://github.com/azhon/network_capture/raw/main/imgs/img_3.jpg" width="300">
-<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_4.jpg" width="300">
+<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_0.png" width="300"> <img src="https://github.com/azhon/network_capture/raw/main/imgs/img_1.png" width="300">
+<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_2.png" width="300"> <img src="https://github.com/azhon/network_capture/raw/main/imgs/img_3.png" width="300">
+<img src="https://github.com/azhon/network_capture/raw/main/imgs/img_4.png" width="300"> <img src="https://github.com/azhon/network_capture/raw/main/imgs/img_5.png" width="300">
 
 ### Usage
 - Add dependencies [latest_version](https://pub.dev/packages/network_capture)

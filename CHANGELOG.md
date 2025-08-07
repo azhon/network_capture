@@ -1,3 +1,7 @@
+## 1.2.3
+* fix large params error
+* add delete item
+
 ## 1.2.2
 * add copy params
 
